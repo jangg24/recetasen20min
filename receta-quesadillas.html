@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Quesadillas de queso y champiñones · Recetas en 20 minutos</title>
   <meta name="description" content="Tortillas de trigo dobladas y tostadas en sartén, rellenas de queso fundido y champiñones salteados con cebolla.">
-  <meta name="theme-color" content="#f6f1e7">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#171411" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="assets/favicon.svg?v=20260930" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,9 +15,10 @@
   <link rel="stylesheet" href="styles.css?v=20260930">
   <link rel="preload" as="image" href="assets/img/quesadillas.webp?v=20260930" fetchpriority="high">
   <script defer src="lib/manifest.js?v=20260930"></script>
+  <script defer src="lib/recetas.js?v=20260930"></script>
   <script defer src="main.js?v=20260930"></script>
 </head>
-<body class="page-recipe">
+<body class="page-recipe" data-slug="quesadillas">
 <a class="skip" href="#contenido">Saltar al contenido</a>
 <div class="progress" aria-hidden="true"><span></span></div>
 <header class="masthead">
@@ -24,8 +27,9 @@
   </a>
   <nav class="nav" aria-label="Principal">
     <a href="index.html#recetas">Recetas</a>
-    <a href="index.html#utensilios">Utensilios</a>
-    <a href="index.html#tiempos">Cómo medimos el tiempo</a>
+    <a href="index.html#nevera" class="nav-opt">¿Qué tengo en la nevera?</a>
+    <a href="index.html#tiempos" class="nav-opt">Cómo medimos el tiempo</a>
+    <a href="lista.html" class="nav-list">Lista de la compra<span class="nav-count" data-list-count hidden></span></a>
   </nav>
 </header>
 <main id="contenido">
@@ -40,8 +44,14 @@
         <div class="fact"><dt>Dificultad</dt><dd>Fácil</dd></div>
         <div class="fact"><dt>Pasos</dt><dd>6</dd></div>
       </dl>
+      <div class="actions js-only">
+        <button type="button" class="btn" data-cook>Empezar a cocinar <span aria-hidden="true">→</span></button>
+        <button type="button" class="btn btn--line" data-add-list data-slug="quesadillas">Añadir a la lista de la compra</button>
+        <button type="button" class="btn btn--line" data-share>Compartir</button>
+        <span class="toast" role="status" aria-live="polite" data-toast></span>
+      </div>
     </header>
-    <figure class="recipe-fig"><img src="assets/img/quesadillas.webp?v=20260930" alt="Quesadillas de queso y champiñones" loading="eager" fetchpriority="high" decoding="sync"><figcaption>Foto ilustrativa: «quesadillas», plasticrevolver · CC BY-SA 2.0 · <a href="creditos.html">créditos</a></figcaption></figure>
+    <figure class="recipe-fig" style="view-transition-name: foto-quesadillas"><img src="assets/img/quesadillas.webp?v=20260930" alt="Quesadillas de queso y champiñones" loading="eager" fetchpriority="high" decoding="sync"><figcaption>Foto ilustrativa: «quesadillas», plasticrevolver · CC BY-SA 2.0 · <a href="creditos.html">créditos</a></figcaption></figure>
 
     <div class="recipe-grid">
       <aside class="recipe-side">
@@ -88,7 +98,7 @@
     <div class="grid grid--two">
     <article class="card reveal" data-cat="Pescado y marisco">
       <a class="card-link" href="receta-salmon-con-esparragos.html">
-        <figure class="card-fig"><img src="assets/img/salmon-con-esparragos.webp?v=20260930" alt="Salmón a la plancha con espárragos trigueros" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-salmon-con-esparragos"><img src="assets/img/salmon-con-esparragos.webp?v=20260930" alt="Salmón a la plancha con espárragos trigueros" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>04</span> Pescado y marisco</p>
           <h3 class="card-title">Salmón a la plancha con espárragos trigueros</h3>
@@ -99,7 +109,7 @@
     </article>
     <article class="card reveal" data-cat="Verduras">
       <a class="card-link" href="receta-cuscus-con-verduras.html">
-        <figure class="card-fig"><img src="assets/img/cuscus-con-verduras.webp?v=20260930" alt="Cuscús con verduras salteadas" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-cuscus-con-verduras"><img src="assets/img/cuscus-con-verduras.webp?v=20260930" alt="Cuscús con verduras salteadas" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>06</span> Verduras</p>
           <h3 class="card-title">Cuscús con verduras salteadas</h3>

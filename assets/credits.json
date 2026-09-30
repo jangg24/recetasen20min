@@ -94,5 +94,77 @@
     "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
     "foreign_landing_url": "https://www.flickr.com/photos/55768440@N00/6728585965",
     "source": "flickr"
+  },
+  "tortitas": {
+    "id": "tortitas",
+    "src": "assets/img/tortitas.webp",
+    "title": "Mmm... sometimes it just has to be pancakes",
+    "creator": "jeffreyw",
+    "creator_url": "https://www.flickr.com/photos/7927684@N03",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/7927684@N03/5502814263",
+    "source": "flickr"
+  },
+  "pan-con-tomate": {
+    "id": "pan-con-tomate",
+    "src": "assets/img/pan-con-tomate.webp",
+    "title": "pan con tomate",
+    "creator": "arquera",
+    "creator_url": "https://www.flickr.com/photos/34145688@N00",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/34145688@N00/1393806364",
+    "source": "flickr"
+  },
+  "huevos-revueltos": {
+    "id": "huevos-revueltos",
+    "src": "assets/img/huevos-revueltos.webp",
+    "title": "Scrambled Eggs - The Commoner",
+    "creator": "avlxyz",
+    "creator_url": "https://www.flickr.com/photos/10559879@N00",
+    "license": "by-sa",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/10559879@N00/2409085893",
+    "source": "flickr"
+  },
+  "mug-cake": {
+    "id": "mug-cake",
+    "src": "assets/img/mug-cake.webp",
+    "title": "Chocolate mug cake",
+    "creator": "",
+    "creator_url": "",
+    "license": "cc0",
+    "license_version": "1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "foreign_landing_url": "https://www.rawpixel.com/image/6040531/chocolate-mug-cake-free-public-domain-cc0-photo",
+    "source": "rawpixel"
+  },
+  "yogur-con-frutos-rojos": {
+    "id": "yogur-con-frutos-rojos",
+    "src": "assets/img/yogur-con-frutos-rojos.webp",
+    "title": "Red, White & Blue",
+    "creator": "Tobyotter",
+    "creator_url": "https://www.flickr.com/photos/78428166@N00",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/78428166@N00/3936353949",
+    "source": "flickr"
+  },
+  "ensalada-de-garbanzos": {
+    "id": "ensalada-de-garbanzos",
+    "src": "assets/img/ensalada-de-garbanzos.webp",
+    "title": "Chickpea Salad - Salad Plate - Brunswick Street Alimentari AUD10",
+    "creator": "avlxyz",
+    "creator_url": "https://www.flickr.com/photos/10559879@N00",
+    "license": "by-sa",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/10559879@N00/4985882841",
+    "source": "flickr"
   }
 }

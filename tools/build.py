@@ -89,10 +89,15 @@ def figure(r, cls, eager=False, sizes=""):
             cap = (f'<figcaption>Foto ilustrativa: «{e(c.get("title") or "Sin título")}», '
                    f'{e(c.get("creator") or "autor desconocido")} · {e(lic)} {e(c.get("license_version") or "")} · '
                    f'<a href="creditos.html">créditos</a></figcaption>')
-        return (f'<figure class="{cls}"><img src="{src}?v={VERSION}" alt="{e(r["title"])}" {load}>{cap}</figure>')
+        vt = f' style="view-transition-name: foto-{r["slug"]}"' if cls in ("card-fig", "recipe-fig") else ""
+        return (f'<figure class="{cls}"{vt}><img src="{src}?v={VERSION}" alt="{e(r["title"])}" {load}>{cap}</figure>')
     return (f'<figure class="{cls} is-empty" role="img" aria-label="Foto pendiente: {e(r["title"])}">'
             f'<span class="ph-mark" aria-hidden="true">{r["total"]}′</span>'
             f'<span class="ph-name">{e(r["title"])}</span></figure>')
+
+
+def personas(n):
+    return f"{n} persona" if n == 1 else f"{n} personas"
 
 
 def dial(total, big=False):
@@ -114,13 +119,16 @@ def head(title, desc, preload=None):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{e(title)}</title>
   <meta name="description" content="{e(desc)}">
-  <meta name="theme-color" content="#f6f1e7">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#171411" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="assets/favicon.svg?v={VERSION}" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="{FONTS}">
   <link rel="stylesheet" href="styles.css?v={VERSION}">{pre}
   <script defer src="lib/manifest.js?v={VERSION}"></script>
+  <script defer src="lib/recetas.js?v={VERSION}"></script>
   <script defer src="main.js?v={VERSION}"></script>
 </head>"""
 
@@ -135,8 +143,9 @@ def masthead(active=""):
   </a>
   <nav class="nav" aria-label="Principal">
     <a href="index.html#recetas"{' aria-current="page"' if active == 'recetas' else ''}>Recetas</a>
-    <a href="index.html#utensilios">Utensilios</a>
-    <a href="index.html#tiempos">Cómo medimos el tiempo</a>
+    <a href="index.html#nevera" class="nav-opt">¿Qué tengo en la nevera?</a>
+    <a href="index.html#tiempos" class="nav-opt">Cómo medimos el tiempo</a>
+    <a href="lista.html" class="nav-list"{' aria-current="page"' if active == 'lista' else ''}>Lista de la compra<span class="nav-count" data-list-count hidden></span></a>
   </nav>
 </header>"""
 
@@ -158,6 +167,72 @@ def footer():
 """
 
 
+STAPLES = "sal, pimienta, aceite y azúcar"
+
+
+def fridge_html():
+    """Buscador por ingredientes: botones fijos en el HTML, resultados con JS."""
+    keys = sorted({k for r in RECIPES for k in r["need"]}, key=lambda k: k.lower())
+    chips = "".join(f'<button type="button" class="chip chip--ing" data-ing="{e(k)}" aria-pressed="false">{e(k)}</button>' for k in keys)
+    return f"""  <section class="section fridge" id="nevera">
+    <header class="section-head">
+      <p class="kicker">Buscador por ingredientes</p>
+      <h2>¿Qué tengo en la <em>nevera</em>?</h2>
+      <p class="section-lede">Marca lo que tienes en casa y te decimos qué recetas puedes hacer y qué te falta para las demás. Solo contamos los ingredientes principales; damos por hecho que tienes {STAPLES}.</p>
+    </header>
+    <div class="chips chips--ing" role="group" aria-label="Ingredientes que tengo">{chips}</div>
+    <div class="fridge-bar js-only"><span data-fridge-count>Nada marcado todavía</span><button type="button" class="linkbtn" data-fridge-clear>Borrar selección</button></div>
+    <div class="fridge-results" data-fridge-results aria-live="polite"></div>
+    <noscript><p class="section-lede">Este buscador necesita JavaScript activado.</p></noscript>
+  </section>"""
+
+
+def build_data():
+    """lib/recetas.js: datos para el buscador y la lista de la compra."""
+    data = [{"slug": r["slug"], "title": r["title"], "category": r["category"], "servings": r["servings"],
+             "total": r["total"], "need": r["need"], "ingredients": r["ingredients"],
+             "img": img_path(r["slug"])} for r in RECIPES]
+    js = ("/* Generado por tools/build.py: no editar a mano. */\n(function () {\n  window.__RECETAS__ = "
+          + json.dumps(data, ensure_ascii=False, indent=1) + ";\n})();\n")
+    (ROOT / "lib" / "recetas.js").write_text(js, encoding="utf-8")
+
+
+def build_list():
+    out = head(f"Lista de la compra · {SITE}", "Lista de la compra con los ingredientes de las recetas que elijas.")
+    out += f"""
+<body class="page-list">{masthead('lista')}
+<main id="contenido" class="shop">
+  <p class="kicker"><a href="index.html#recetas">← Volver a las recetas</a></p>
+  <h1 class="recipe-title">Lista de la <em>compra</em></h1>
+  <p class="recipe-lede">Añade recetas desde su página con el botón «Añadir a la lista de la compra». Aquí se juntan sus ingredientes, con las cantidades sumadas cuando coinciden.</p>
+  <div class="shop-empty" data-shop-empty>
+    <p>Tu lista está vacía.</p>
+    <a class="btn" href="index.html#recetas">Elegir recetas</a>
+  </div>
+  <div class="shop-grid" data-shop hidden>
+    <section class="box">
+      <h2 class="h-small">Recetas en la lista</h2>
+      <ul class="shop-recipes" data-shop-recipes></ul>
+    </section>
+    <section class="box">
+      <h2 class="h-small">Ingredientes <span data-shop-total></span></h2>
+      <ul class="checklist" data-shop-items></ul>
+      <p class="servings-note">Cantidades recalculadas y redondeadas a partir de cada receta. Los ingredientes sin cantidad (sal, pimienta…) aparecen una sola vez.</p>
+      <div class="actions">
+        <button type="button" class="btn" data-shop-share>Enviar lista</button>
+        <button type="button" class="btn btn--line" data-shop-copy>Copiar</button>
+        <button type="button" class="btn btn--line" data-shop-print>Imprimir</button>
+        <button type="button" class="linkbtn" data-shop-clear>Vaciar lista</button>
+        <span class="toast" role="status" aria-live="polite" data-toast></span>
+      </div>
+    </section>
+  </div>
+  <noscript><p>La lista de la compra necesita JavaScript activado.</p></noscript>
+</main>"""
+    out += footer()
+    (ROOT / "lista.html").write_text(out, encoding="utf-8")
+
+
 def card(r, i):
     return f"""
     <article class="card reveal" data-cat="{e(r['category'])}">
@@ -167,7 +242,7 @@ def card(r, i):
           <p class="kicker"><span>{i:02d}</span> {e(r['category'])}</p>
           <h3 class="card-title">{e(r['title'])}</h3>
           <p class="card-sum">{e(r['summary'])}</p>
-          <p class="card-meta">{dial(r['total'])}<span>{r['servings']} personas · {e(r['difficulty'])}</span></p>
+          <p class="card-meta">{dial(r['total'])}<span>{personas(r['servings'])} · {e(r['difficulty'])}</span></p>
         </div>
       </a>
     </article>"""
@@ -220,6 +295,8 @@ def build_index():
   </section>
 
   <div class="marquee" aria-hidden="true"><div class="marquee-track">{marquee_items}{marquee_items}</div></div>
+
+{fridge_html()}
 
   <section class="section" id="recetas">
     <header class="section-head">
@@ -283,7 +360,7 @@ def build_recipe(r, idx):
 
     out = head(f"{r['title']} · {SITE}", r["summary"], img)
     out += f"""
-<body class="page-recipe">{masthead()}
+<body class="page-recipe" data-slug="{r['slug']}">{masthead()}
 <main id="contenido">
   <article class="recipe">
     <header class="recipe-head">
@@ -292,10 +369,16 @@ def build_recipe(r, idx):
       <p class="recipe-lede">{e(r['summary'])}</p>
       <dl class="facts">
         <div class="fact fact--time">{dial(r['total'], big=True)}<div><dt>Tiempo total</dt><dd>unos {r['total']} minutos</dd></div></div>
-        <div class="fact"><dt>Raciones</dt><dd><span data-servings-label>{r['servings']} personas</span></dd></div>
+        <div class="fact"><dt>Raciones</dt><dd><span data-servings-label>{personas(r['servings'])}</span></dd></div>
         <div class="fact"><dt>Dificultad</dt><dd>{e(r['difficulty'])}</dd></div>
         <div class="fact"><dt>Pasos</dt><dd>{len(r['steps'])}</dd></div>
       </dl>
+      <div class="actions js-only">
+        <button type="button" class="btn" data-cook>Empezar a cocinar <span aria-hidden="true">→</span></button>
+        <button type="button" class="btn btn--line" data-add-list data-slug="{r['slug']}">Añadir a la lista de la compra</button>
+        <button type="button" class="btn btn--line" data-share>Compartir</button>
+        <span class="toast" role="status" aria-live="polite" data-toast></span>
+      </div>
     </header>
     {figure(r, 'recipe-fig', eager=True)}
 
@@ -307,11 +390,11 @@ def build_recipe(r, idx):
             <span class="servings-label" id="raciones-{r['slug']}">Raciones</span>
             <div class="stepper" role="group" aria-labelledby="raciones-{r['slug']}">
               <button type="button" class="stepper-btn" data-step="-1" aria-label="Una ración menos">−</button>
-              <output class="stepper-val" aria-live="polite"><b>{r['servings']}</b> <span>personas</span></output>
+              <output class="stepper-val" aria-live="polite"><b>{r['servings']}</b> <span>{personas(r['servings']).split(' ')[1]}</span></output>
               <button type="button" class="stepper-btn" data-step="1" aria-label="Una ración más">+</button>
             </div>
           </div>
-          <p class="servings-note" data-servings-note hidden>Las cantidades se han recalculado a partir de la receta original para {r['servings']} personas y están redondeadas. Los pasos y los tiempos están pensados para {r['servings']} personas: con más cantidad puede que necesites un recipiente más grande, cocinar por tandas y algunos minutos más.</p>
+          <p class="servings-note" data-servings-note hidden>Las cantidades se han recalculado a partir de la receta original para {personas(r['servings'])} y están redondeadas. Los pasos y los tiempos están pensados para {personas(r['servings'])}: con más cantidad puede que necesites un recipiente más grande, cocinar por tandas y algunos minutos más.</p>
           <ul class="checklist">{ingredients}</ul>
         </section>
         <section class="box">
@@ -382,6 +465,8 @@ if __name__ == "__main__":
     for i, r in enumerate(RECIPES):
         build_recipe(r, i)
     build_credits()
+    build_data()
+    build_list()
     missing = [r["slug"] for r in RECIPES if not img_path(r["slug"])]
     print(f"OK · {len(RECIPES)} recetas · v={VERSION}")
     if missing:

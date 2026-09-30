@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Espaguetis a la carbonara · Recetas en 20 minutos</title>
   <meta name="description" content="La receta romana: guanciale, yema de huevo, pecorino y pimienta negra. Sin nata: la crema sale del huevo y del agua de cocción.">
-  <meta name="theme-color" content="#f6f1e7">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#171411" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="assets/favicon.svg?v=20260930" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,9 +15,10 @@
   <link rel="stylesheet" href="styles.css?v=20260930">
   <link rel="preload" as="image" href="assets/img/carbonara.webp?v=20260930" fetchpriority="high">
   <script defer src="lib/manifest.js?v=20260930"></script>
+  <script defer src="lib/recetas.js?v=20260930"></script>
   <script defer src="main.js?v=20260930"></script>
 </head>
-<body class="page-recipe">
+<body class="page-recipe" data-slug="carbonara">
 <a class="skip" href="#contenido">Saltar al contenido</a>
 <div class="progress" aria-hidden="true"><span></span></div>
 <header class="masthead">
@@ -24,8 +27,9 @@
   </a>
   <nav class="nav" aria-label="Principal">
     <a href="index.html#recetas">Recetas</a>
-    <a href="index.html#utensilios">Utensilios</a>
-    <a href="index.html#tiempos">Cómo medimos el tiempo</a>
+    <a href="index.html#nevera" class="nav-opt">¿Qué tengo en la nevera?</a>
+    <a href="index.html#tiempos" class="nav-opt">Cómo medimos el tiempo</a>
+    <a href="lista.html" class="nav-list">Lista de la compra<span class="nav-count" data-list-count hidden></span></a>
   </nav>
 </header>
 <main id="contenido">
@@ -40,8 +44,14 @@
         <div class="fact"><dt>Dificultad</dt><dd>Media</dd></div>
         <div class="fact"><dt>Pasos</dt><dd>8</dd></div>
       </dl>
+      <div class="actions js-only">
+        <button type="button" class="btn" data-cook>Empezar a cocinar <span aria-hidden="true">→</span></button>
+        <button type="button" class="btn btn--line" data-add-list data-slug="carbonara">Añadir a la lista de la compra</button>
+        <button type="button" class="btn btn--line" data-share>Compartir</button>
+        <span class="toast" role="status" aria-live="polite" data-toast></span>
+      </div>
     </header>
-    <figure class="recipe-fig"><img src="assets/img/carbonara.webp?v=20260930" alt="Espaguetis a la carbonara" loading="eager" fetchpriority="high" decoding="sync"><figcaption>Foto ilustrativa: «Mmm... spaghetti carbonara», jeffreyw · CC BY 2.0 · <a href="creditos.html">créditos</a></figcaption></figure>
+    <figure class="recipe-fig" style="view-transition-name: foto-carbonara"><img src="assets/img/carbonara.webp?v=20260930" alt="Espaguetis a la carbonara" loading="eager" fetchpriority="high" decoding="sync"><figcaption>Foto ilustrativa: «Mmm... spaghetti carbonara», jeffreyw · CC BY 2.0 · <a href="creditos.html">créditos</a></figcaption></figure>
 
     <div class="recipe-grid">
       <aside class="recipe-side">
@@ -88,20 +98,20 @@
   <section class="section section--related">
     <header class="section-head"><p class="kicker">Sigue cocinando</p><h2>Otras recetas</h2></header>
     <div class="grid grid--two">
-    <article class="card reveal" data-cat="Carne">
-      <a class="card-link" href="receta-salteado-de-pollo.html">
-        <figure class="card-fig"><img src="assets/img/salteado-de-pollo.webp?v=20260930" alt="Salteado de pollo con verduras" loading="lazy" decoding="async"></figure>
+    <article class="card reveal" data-cat="Sin cocción">
+      <a class="card-link" href="receta-ensalada-de-garbanzos.html">
+        <figure class="card-fig" style="view-transition-name: foto-ensalada-de-garbanzos"><img src="assets/img/ensalada-de-garbanzos.webp?v=20260930" alt="Ensalada de garbanzos" loading="lazy" decoding="async"></figure>
         <div class="card-body">
-          <p class="kicker"><span>08</span> Carne</p>
-          <h3 class="card-title">Salteado de pollo con verduras</h3>
-          <p class="card-sum">Tiras de pechuga de pollo y verduras en juliana, salteadas a fuego fuerte en wok y terminadas con salsa de soja.</p>
-          <p class="card-meta"><span class="dial" style="--frac:1.000" aria-label="20 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">20<small>min</small></span></span><span>2 personas · Fácil</span></p>
+          <p class="kicker"><span>14</span> Sin cocción</p>
+          <h3 class="card-title">Ensalada de garbanzos</h3>
+          <p class="card-sum">Garbanzos cocidos de bote con tomate, pepino y cebolla morada, aliñados con aceite y vinagre. Sin encender el fuego.</p>
+          <p class="card-meta"><span class="dial" style="--frac:0.750" aria-label="15 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">15<small>min</small></span></span><span>2 personas · Fácil</span></p>
         </div>
       </a>
     </article>
     <article class="card reveal" data-cat="Pescado y marisco">
       <a class="card-link" href="receta-gambas-al-ajillo.html">
-        <figure class="card-fig"><img src="assets/img/gambas-al-ajillo.webp?v=20260930" alt="Gambas al ajillo" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-gambas-al-ajillo"><img src="assets/img/gambas-al-ajillo.webp?v=20260930" alt="Gambas al ajillo" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>02</span> Pescado y marisco</p>
           <h3 class="card-title">Gambas al ajillo</h3>
