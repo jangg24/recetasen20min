@@ -286,6 +286,24 @@ em { font-style: italic; }
 .tips li { padding: .25rem 0; color: var(--ink-soft); }
 .section--related { border-top: 1px solid var(--line-strong); }
 
+/* ---------- Selector de raciones ---------- */
+.servings { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: -.2rem 0 .6rem; }
+.servings-label { font: 500 .85rem/1 var(--f-sans); color: var(--ink-mute); }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--ink); border-radius: 999px; background: var(--paper); }
+.stepper-btn {
+  width: 40px; height: 40px; border: 0; background: transparent; border-radius: 50%;
+  font: 500 1.3rem/1 var(--f-sans); cursor: pointer; transition: background .2s, color .2s;
+}
+.stepper-btn:hover:not(:disabled) { background: var(--accent); color: var(--paper); }
+.stepper-btn:disabled { opacity: .3; cursor: not-allowed; }
+.stepper-val { min-width: 104px; text-align: center; font: 500 .9rem/1 var(--f-sans); }
+.stepper-val b { font: 700 1.3rem/1 var(--f-display); color: var(--accent); margin-right: .15em; }
+.servings-note { font: italic .88rem/1.45 var(--f-body); color: var(--ink-soft); background: var(--paper); border-left: 3px solid var(--accent); padding: .7rem .9rem; margin: .4rem 0 .6rem; }
+.servings-note[hidden] { display: none; }
+.checklist .q { font-weight: 600; color: var(--ink); }
+html:not(.js) .stepper-btn { display: none; }
+html:not(.js) .stepper-val { padding: 10px 14px; }
+
 /* ---------- Credits ---------- */
 .credits { max-width: 860px; margin: 0 auto; padding: clamp(40px, 7vw, 96px) var(--gut); }
 .credits h1 { margin-bottom: 1.4rem; }
@@ -338,7 +356,7 @@ em { font-style: italic; }
 
 /* ---------- Print ---------- */
 @media print {
-  .masthead, .progress, .footer, .section--related, .timer, [data-print], .skip { display: none !important; }
+  .masthead, .progress, .footer, .section--related, .timer, [data-print], .skip, .stepper-btn { display: none !important; }
   body { background: #fff; font-size: 11pt; }
   .recipe-fig { max-height: 7cm; }
   .recipe-grid { grid-template-columns: 34% 1fr; gap: 1cm; padding-top: .6cm; }

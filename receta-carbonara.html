@@ -35,7 +35,7 @@
       <p class="recipe-lede">La receta romana: guanciale, yema de huevo, pecorino y pimienta negra. Sin nata: la crema sale del huevo y del agua de cocción.</p>
       <dl class="facts">
         <div class="fact fact--time"><span class="dial dial--big" style="--frac:1.000" aria-label="20 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">20<small>min</small></span></span><div><dt>Tiempo total</dt><dd>unos 20 minutos</dd></div></div>
-        <div class="fact"><dt>Raciones</dt><dd>2 personas</dd></div>
+        <div class="fact"><dt>Raciones</dt><dd><span data-servings-label>2 personas</span></dd></div>
         <div class="fact"><dt>Dificultad</dt><dd>Media</dd></div>
         <div class="fact"><dt>Pasos</dt><dd>8</dd></div>
       </dl>
@@ -45,8 +45,17 @@
     <div class="recipe-grid">
       <aside class="recipe-side">
         <section class="box">
-          <h2 class="h-small">Ingredientes <span>para 2</span></h2>
-          <ul class="checklist"><li><label><input type="checkbox"><span>200 g de espaguetis</span></label></li><li><label><input type="checkbox"><span>100 g de guanciale (o panceta curada si no lo encuentras)</span></label></li><li><label><input type="checkbox"><span>2 yemas de huevo y 1 huevo entero</span></label></li><li><label><input type="checkbox"><span>40 g de queso pecorino romano rallado, y un poco más para servir</span></label></li><li><label><input type="checkbox"><span>Pimienta negra recién molida</span></label></li><li><label><input type="checkbox"><span>Sal gruesa para el agua de cocción</span></label></li></ul>
+          <h2 class="h-small">Ingredientes</h2>
+          <div class="servings" data-servings data-base="2">
+            <span class="servings-label" id="raciones-carbonara">Raciones</span>
+            <div class="stepper" role="group" aria-labelledby="raciones-carbonara">
+              <button type="button" class="stepper-btn" data-step="-1" aria-label="Una ración menos">−</button>
+              <output class="stepper-val" aria-live="polite"><b>2</b> <span>personas</span></output>
+              <button type="button" class="stepper-btn" data-step="1" aria-label="Una ración más">+</button>
+            </div>
+          </div>
+          <p class="servings-note" data-servings-note hidden>Las cantidades se han recalculado a partir de la receta original para 2 personas y están redondeadas. Los pasos y los tiempos están pensados para 2 personas: con más cantidad puede que necesites un recipiente más grande, cocinar por tandas y algunos minutos más.</p>
+          <ul class="checklist"><li><label><input type="checkbox"><span><b class="q" data-q="200" data-u="w">200</b> g de espaguetis</span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="100" data-u="w">100</b> g de guanciale (o panceta curada si no lo encuentras)</span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="2" data-u="n">2</b> <span class="pl" data-one="yema" data-many="yemas">yemas</span> de huevo y <b class="q" data-q="1" data-u="n">1</b> <span class="pl" data-one="huevo entero" data-many="huevos enteros">huevo entero</span></span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="40" data-u="w">40</b> g de queso pecorino romano rallado, y un poco más para servir</span></label></li><li><label><input type="checkbox"><span>Pimienta negra recién molida</span></label></li><li><label><input type="checkbox"><span>Sal gruesa para el agua de cocción</span></label></li></ul>
         </section>
         <section class="box">
           <h2 class="h-small">Utensilios</h2>
@@ -63,7 +72,7 @@
         <ol class="steps">
         <li class="step" id="paso-1"><span class="step-n" aria-hidden="true">01</span><div class="step-body"><p>Pon a calentar agua abundante en la olla grande. Cuando hierva, échale un buen puñado de sal gruesa.</p></div></li>
         <li class="step" id="paso-2"><span class="step-n" aria-hidden="true">02</span><div class="step-body"><p>Mientras se calienta el agua, corta el guanciale en tiras de medio centímetro de grosor y ralla el pecorino.</p></div></li>
-        <li class="step" id="paso-3"><span class="step-n" aria-hidden="true">03</span><div class="step-body"><p>En el bol, bate las 2 yemas y el huevo entero con el pecorino rallado y abundante pimienta negra hasta obtener una pasta espesa. Resérvala.</p></div></li>
+        <li class="step" id="paso-3"><span class="step-n" aria-hidden="true">03</span><div class="step-body"><p>En el bol, bate las yemas y el huevo entero con el pecorino rallado y abundante pimienta negra hasta obtener una pasta espesa. Resérvala.</p></div></li>
         <li class="step" id="paso-4"><span class="step-n" aria-hidden="true">04</span><div class="step-body"><p>Echa los espaguetis en el agua hirviendo y cuécelos el tiempo que indique el paquete para que queden al dente (en la mayoría de marcas, entre 9 y 11 minutos).</p><button type="button" class="timer" data-min="10" aria-live="polite"><span class="timer-ico" aria-hidden="true">◷</span><span class="timer-txt">Temporizador 10 min</span></button></div></li>
         <li class="step" id="paso-5"><span class="step-n" aria-hidden="true">05</span><div class="step-body"><p>Mientras la pasta se cuece, pon el guanciale en la sartén sin aceite, a fuego medio. Deja que suelte su grasa y se dore hasta quedar crujiente por fuera, unos 5–7 minutos. Apaga el fuego.</p><button type="button" class="timer" data-min="6" aria-live="polite"><span class="timer-ico" aria-hidden="true">◷</span><span class="timer-txt">Temporizador 6 min</span></button></div></li>
         <li class="step" id="paso-6"><span class="step-n" aria-hidden="true">06</span><div class="step-body"><p>Antes de escurrir la pasta, reserva un vaso del agua de cocción. Escurre los espaguetis y pásalos a la sartén con el guanciale, con el fuego apagado. Mézclalo todo con las pinzas.</p></div></li>

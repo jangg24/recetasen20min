@@ -35,7 +35,7 @@
       <p class="recipe-lede">Tiras de pechuga de pollo y verduras en juliana, salteadas a fuego fuerte en wok y terminadas con salsa de soja.</p>
       <dl class="facts">
         <div class="fact fact--time"><span class="dial dial--big" style="--frac:1.000" aria-label="20 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">20<small>min</small></span></span><div><dt>Tiempo total</dt><dd>unos 20 minutos</dd></div></div>
-        <div class="fact"><dt>Raciones</dt><dd>2 personas</dd></div>
+        <div class="fact"><dt>Raciones</dt><dd><span data-servings-label>2 personas</span></dd></div>
         <div class="fact"><dt>Dificultad</dt><dd>Fácil</dd></div>
         <div class="fact"><dt>Pasos</dt><dd>6</dd></div>
       </dl>
@@ -45,8 +45,17 @@
     <div class="recipe-grid">
       <aside class="recipe-side">
         <section class="box">
-          <h2 class="h-small">Ingredientes <span>para 2</span></h2>
-          <ul class="checklist"><li><label><input type="checkbox"><span>300 g de pechuga de pollo</span></label></li><li><label><input type="checkbox"><span>1 pimiento rojo</span></label></li><li><label><input type="checkbox"><span>1 calabacín</span></label></li><li><label><input type="checkbox"><span>1 zanahoria</span></label></li><li><label><input type="checkbox"><span>½ cebolla</span></label></li><li><label><input type="checkbox"><span>2 dientes de ajo</span></label></li><li><label><input type="checkbox"><span>1 trozo de jengibre fresco de 2 cm (opcional)</span></label></li><li><label><input type="checkbox"><span>3 cucharadas de salsa de soja</span></label></li><li><label><input type="checkbox"><span>1 cucharada de aceite de girasol</span></label></li><li><label><input type="checkbox"><span>Sal</span></label></li></ul>
+          <h2 class="h-small">Ingredientes</h2>
+          <div class="servings" data-servings data-base="2">
+            <span class="servings-label" id="raciones-salteado-de-pollo">Raciones</span>
+            <div class="stepper" role="group" aria-labelledby="raciones-salteado-de-pollo">
+              <button type="button" class="stepper-btn" data-step="-1" aria-label="Una ración menos">−</button>
+              <output class="stepper-val" aria-live="polite"><b>2</b> <span>personas</span></output>
+              <button type="button" class="stepper-btn" data-step="1" aria-label="Una ración más">+</button>
+            </div>
+          </div>
+          <p class="servings-note" data-servings-note hidden>Las cantidades se han recalculado a partir de la receta original para 2 personas y están redondeadas. Los pasos y los tiempos están pensados para 2 personas: con más cantidad puede que necesites un recipiente más grande, cocinar por tandas y algunos minutos más.</p>
+          <ul class="checklist"><li><label><input type="checkbox"><span><b class="q" data-q="300" data-u="w">300</b> g de pechuga de pollo</span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="1" data-u="n">1</b> <span class="pl" data-one="pimiento rojo" data-many="pimientos rojos">pimiento rojo</span></span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="1" data-u="n">1</b> <span class="pl" data-one="calabacín" data-many="calabacines">calabacín</span></span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="1" data-u="n">1</b> <span class="pl" data-one="zanahoria" data-many="zanahorias">zanahoria</span></span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="0.5" data-u="n">½</b> <span class="pl" data-one="cebolla" data-many="cebollas">cebolla</span></span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="2" data-u="n">2</b> <span class="pl" data-one="diente" data-many="dientes">dientes</span> de ajo</span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="1" data-u="n">1</b> <span class="pl" data-one="trozo" data-many="trozos">trozo</span> de jengibre fresco de 2 cm (opcional)</span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="3" data-u="n">3</b> <span class="pl" data-one="cucharada" data-many="cucharadas">cucharadas</span> de salsa de soja</span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="1" data-u="n">1</b> <span class="pl" data-one="cucharada" data-many="cucharadas">cucharada</span> de aceite de girasol</span></label></li><li><label><input type="checkbox"><span>Sal</span></label></li></ul>
         </section>
         <section class="box">
           <h2 class="h-small">Utensilios</h2>

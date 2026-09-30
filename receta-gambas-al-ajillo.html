@@ -35,7 +35,7 @@
       <p class="recipe-lede">Un clásico de la cocina española: gambas cocinadas en aceite de oliva con ajo laminado y guindilla. Se sirven hirviendo, con pan para mojar.</p>
       <dl class="facts">
         <div class="fact fact--time"><span class="dial dial--big" style="--frac:0.750" aria-label="15 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">15<small>min</small></span></span><div><dt>Tiempo total</dt><dd>unos 15 minutos</dd></div></div>
-        <div class="fact"><dt>Raciones</dt><dd>2 personas</dd></div>
+        <div class="fact"><dt>Raciones</dt><dd><span data-servings-label>2 personas</span></dd></div>
         <div class="fact"><dt>Dificultad</dt><dd>Fácil</dd></div>
         <div class="fact"><dt>Pasos</dt><dd>5</dd></div>
       </dl>
@@ -45,8 +45,17 @@
     <div class="recipe-grid">
       <aside class="recipe-side">
         <section class="box">
-          <h2 class="h-small">Ingredientes <span>para 2</span></h2>
-          <ul class="checklist"><li><label><input type="checkbox"><span>300 g de gambas peladas (crudas)</span></label></li><li><label><input type="checkbox"><span>4 dientes de ajo</span></label></li><li><label><input type="checkbox"><span>1 guindilla (cayena) seca</span></label></li><li><label><input type="checkbox"><span>80 ml de aceite de oliva virgen extra</span></label></li><li><label><input type="checkbox"><span>Un puñado de perejil fresco</span></label></li><li><label><input type="checkbox"><span>Sal</span></label></li><li><label><input type="checkbox"><span>Pan, para acompañar</span></label></li></ul>
+          <h2 class="h-small">Ingredientes</h2>
+          <div class="servings" data-servings data-base="2">
+            <span class="servings-label" id="raciones-gambas-al-ajillo">Raciones</span>
+            <div class="stepper" role="group" aria-labelledby="raciones-gambas-al-ajillo">
+              <button type="button" class="stepper-btn" data-step="-1" aria-label="Una ración menos">−</button>
+              <output class="stepper-val" aria-live="polite"><b>2</b> <span>personas</span></output>
+              <button type="button" class="stepper-btn" data-step="1" aria-label="Una ración más">+</button>
+            </div>
+          </div>
+          <p class="servings-note" data-servings-note hidden>Las cantidades se han recalculado a partir de la receta original para 2 personas y están redondeadas. Los pasos y los tiempos están pensados para 2 personas: con más cantidad puede que necesites un recipiente más grande, cocinar por tandas y algunos minutos más.</p>
+          <ul class="checklist"><li><label><input type="checkbox"><span><b class="q" data-q="300" data-u="w">300</b> g de gambas peladas (crudas)</span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="4" data-u="n">4</b> <span class="pl" data-one="diente" data-many="dientes">dientes</span> de ajo</span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="1" data-u="n">1</b> <span class="pl" data-one="guindilla" data-many="guindillas">guindilla</span> (cayena) <span class="pl" data-one="seca" data-many="secas">seca</span></span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="80" data-u="w">80</b> ml de aceite de oliva virgen extra</span></label></li><li><label><input type="checkbox"><span>Un puñado de perejil fresco</span></label></li><li><label><input type="checkbox"><span>Sal</span></label></li><li><label><input type="checkbox"><span>Pan, para acompañar</span></label></li></ul>
         </section>
         <section class="box">
           <h2 class="h-small">Utensilios</h2>

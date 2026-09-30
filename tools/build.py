@@ -13,6 +13,7 @@ marco tipográfico en su lugar, sin enlaces rotos.
 import datetime
 import html
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -28,6 +29,37 @@ FONTS = ("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,
 
 e = html.escape
 LICENSE_NAMES = {"cc0": "CC0", "pdm": "Dominio público", "by": "CC BY", "by-sa": "CC BY-SA"}
+
+
+FRACS = {0.25: "¼", 0.5: "½", 0.75: "¾"}
+
+
+def fmt_qty(v):
+    """Mismo formato que main.js: enteros y fracciones de cocina (¼, ½, ¾)."""
+    whole, frac = int(v), round(v - int(v), 2)
+    if frac == 0:
+        return str(whole)
+    f = FRACS.get(frac, str(round(frac, 2)))
+    return f if whole == 0 else f"{whole} {f}"
+
+
+def ingredient_html(text):
+    """[200] → cantidad escalable, [3-4] → rango, {uno|varios} → concordancia."""
+    out, last = [], 1.0
+    for tok in re.split(r"(\[[^\]]+\]|\{[^}]+\})", text):
+        if tok.startswith("["):
+            lo, _, hi = tok[1:-1].partition("-")
+            last = float(hi or lo)
+            unit = "w" if re.match(r"\s*(g|ml)\b", text[text.index(tok) + len(tok):]) else "n"
+            shown = fmt_qty(float(lo)) + ("–" + fmt_qty(float(hi)) if hi else "")
+            q2 = f' data-q2="{hi}"' if hi else ""
+            out.append(f'<b class="q" data-q="{lo}"{q2} data-u="{unit}">{shown}</b>')
+        elif tok.startswith("{"):
+            one, many = tok[1:-1].split("|")
+            out.append(f'<span class="pl" data-one="{e(one)}" data-many="{e(many)}">{e(many if last > 1 else one)}</span>')
+        else:
+            out.append(e(tok))
+    return "".join(out)
 
 
 def load_credits():
@@ -231,7 +263,7 @@ def build_recipe(r, idx):
     next_r = RECIPES[(idx + 1) % len(RECIPES)]
     img = img_path(r["slug"])
     ingredients = "".join(
-        f'<li><label><input type="checkbox"><span>{e(x)}</span></label></li>' for x in r["ingredients"])
+        f'<li><label><input type="checkbox"><span>{ingredient_html(x)}</span></label></li>' for x in r["ingredients"])
     tools = "".join(f"<li>{e(x)}</li>" for x in r["tools"])
     breakdown = "".join(f"<li>{e(x)}</li>" for x in r["time_breakdown"])
     steps = ""
@@ -260,7 +292,7 @@ def build_recipe(r, idx):
       <p class="recipe-lede">{e(r['summary'])}</p>
       <dl class="facts">
         <div class="fact fact--time">{dial(r['total'], big=True)}<div><dt>Tiempo total</dt><dd>unos {r['total']} minutos</dd></div></div>
-        <div class="fact"><dt>Raciones</dt><dd>{r['servings']} personas</dd></div>
+        <div class="fact"><dt>Raciones</dt><dd><span data-servings-label>{r['servings']} personas</span></dd></div>
         <div class="fact"><dt>Dificultad</dt><dd>{e(r['difficulty'])}</dd></div>
         <div class="fact"><dt>Pasos</dt><dd>{len(r['steps'])}</dd></div>
       </dl>
@@ -270,7 +302,16 @@ def build_recipe(r, idx):
     <div class="recipe-grid">
       <aside class="recipe-side">
         <section class="box">
-          <h2 class="h-small">Ingredientes <span>para {r['servings']}</span></h2>
+          <h2 class="h-small">Ingredientes</h2>
+          <div class="servings" data-servings data-base="{r['servings']}">
+            <span class="servings-label" id="raciones-{r['slug']}">Raciones</span>
+            <div class="stepper" role="group" aria-labelledby="raciones-{r['slug']}">
+              <button type="button" class="stepper-btn" data-step="-1" aria-label="Una ración menos">−</button>
+              <output class="stepper-val" aria-live="polite"><b>{r['servings']}</b> <span>personas</span></output>
+              <button type="button" class="stepper-btn" data-step="1" aria-label="Una ración más">+</button>
+            </div>
+          </div>
+          <p class="servings-note" data-servings-note hidden>Las cantidades se han recalculado a partir de la receta original para {r['servings']} personas y están redondeadas. Los pasos y los tiempos están pensados para {r['servings']} personas: con más cantidad puede que necesites un recipiente más grande, cocinar por tandas y algunos minutos más.</p>
           <ul class="checklist">{ingredients}</ul>
         </section>
         <section class="box">

@@ -35,7 +35,7 @@
       <p class="recipe-lede">Tortillas de trigo dobladas y tostadas en sartén, rellenas de queso fundido y champiñones salteados con cebolla.</p>
       <dl class="facts">
         <div class="fact fact--time"><span class="dial dial--big" style="--frac:1.000" aria-label="20 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">20<small>min</small></span></span><div><dt>Tiempo total</dt><dd>unos 20 minutos</dd></div></div>
-        <div class="fact"><dt>Raciones</dt><dd>2 personas</dd></div>
+        <div class="fact"><dt>Raciones</dt><dd><span data-servings-label>2 personas</span></dd></div>
         <div class="fact"><dt>Dificultad</dt><dd>Fácil</dd></div>
         <div class="fact"><dt>Pasos</dt><dd>6</dd></div>
       </dl>
@@ -45,8 +45,17 @@
     <div class="recipe-grid">
       <aside class="recipe-side">
         <section class="box">
-          <h2 class="h-small">Ingredientes <span>para 2</span></h2>
-          <ul class="checklist"><li><label><input type="checkbox"><span>2 tortillas de trigo grandes</span></label></li><li><label><input type="checkbox"><span>150 g de queso que funda bien (Oaxaca, mozzarella o cheddar), rallado</span></label></li><li><label><input type="checkbox"><span>150 g de champiñones</span></label></li><li><label><input type="checkbox"><span>½ cebolla</span></label></li><li><label><input type="checkbox"><span>1 cucharada de aceite de oliva</span></label></li><li><label><input type="checkbox"><span>Sal</span></label></li></ul>
+          <h2 class="h-small">Ingredientes</h2>
+          <div class="servings" data-servings data-base="2">
+            <span class="servings-label" id="raciones-quesadillas">Raciones</span>
+            <div class="stepper" role="group" aria-labelledby="raciones-quesadillas">
+              <button type="button" class="stepper-btn" data-step="-1" aria-label="Una ración menos">−</button>
+              <output class="stepper-val" aria-live="polite"><b>2</b> <span>personas</span></output>
+              <button type="button" class="stepper-btn" data-step="1" aria-label="Una ración más">+</button>
+            </div>
+          </div>
+          <p class="servings-note" data-servings-note hidden>Las cantidades se han recalculado a partir de la receta original para 2 personas y están redondeadas. Los pasos y los tiempos están pensados para 2 personas: con más cantidad puede que necesites un recipiente más grande, cocinar por tandas y algunos minutos más.</p>
+          <ul class="checklist"><li><label><input type="checkbox"><span><b class="q" data-q="2" data-u="n">2</b> <span class="pl" data-one="tortilla" data-many="tortillas">tortillas</span> de trigo <span class="pl" data-one="grande" data-many="grandes">grandes</span></span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="150" data-u="w">150</b> g de queso que funda bien (Oaxaca, mozzarella o cheddar), rallado</span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="150" data-u="w">150</b> g de champiñones</span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="0.5" data-u="n">½</b> <span class="pl" data-one="cebolla" data-many="cebollas">cebolla</span></span></label></li><li><label><input type="checkbox"><span><b class="q" data-q="1" data-u="n">1</b> <span class="pl" data-one="cucharada" data-many="cucharadas">cucharada</span> de aceite de oliva</span></label></li><li><label><input type="checkbox"><span>Sal</span></label></li></ul>
         </section>
         <section class="box">
           <h2 class="h-small">Utensilios</h2>
@@ -64,11 +73,11 @@
         <li class="step" id="paso-1"><span class="step-n" aria-hidden="true">01</span><div class="step-body"><p>Limpia los champiñones con papel de cocina húmedo y córtalos en láminas. Pica la cebolla fina.</p></div></li>
         <li class="step" id="paso-2"><span class="step-n" aria-hidden="true">02</span><div class="step-body"><p>Calienta el aceite en la sartén a fuego medio y saltea la cebolla y los champiñones con una pizca de sal durante 5–6 minutos, hasta que los champiñones suelten su agua y esta se evapore. Pásalos a un plato.</p><button type="button" class="timer" data-min="6" aria-live="polite"><span class="timer-ico" aria-hidden="true">◷</span><span class="timer-txt">Temporizador 6 min</span></button></div></li>
         <li class="step" id="paso-3"><span class="step-n" aria-hidden="true">03</span><div class="step-body"><p>Limpia la sartén con papel de cocina y vuelve a ponerla a fuego medio, sin aceite.</p></div></li>
-        <li class="step" id="paso-4"><span class="step-n" aria-hidden="true">04</span><div class="step-body"><p>Coloca una tortilla en la sartén y, sobre una de sus mitades, reparte la mitad de los champiñones y la mitad del queso. Dobla la tortilla por la mitad y presiónala con la espátula.</p></div></li>
-        <li class="step" id="paso-5"><span class="step-n" aria-hidden="true">05</span><div class="step-body"><p>Tuéstala unos 2 minutos por cada lado, hasta que esté dorada y el queso se haya fundido. Repite con la segunda tortilla.</p><button type="button" class="timer" data-min="2" aria-live="polite"><span class="timer-ico" aria-hidden="true">◷</span><span class="timer-txt">Temporizador 2 min</span></button></div></li>
+        <li class="step" id="paso-4"><span class="step-n" aria-hidden="true">04</span><div class="step-body"><p>Coloca una tortilla en la sartén y, sobre una de sus mitades, reparte la parte de champiñones y de queso que le corresponde (el relleno se divide a partes iguales entre las tortillas). Dobla la tortilla por la mitad y presiónala con la espátula.</p></div></li>
+        <li class="step" id="paso-5"><span class="step-n" aria-hidden="true">05</span><div class="step-body"><p>Tuéstala unos 2 minutos por cada lado, hasta que esté dorada y el queso se haya fundido. Repite con el resto de tortillas.</p><button type="button" class="timer" data-min="2" aria-live="polite"><span class="timer-ico" aria-hidden="true">◷</span><span class="timer-txt">Temporizador 2 min</span></button></div></li>
         <li class="step" id="paso-6"><span class="step-n" aria-hidden="true">06</span><div class="step-body"><p>Deja reposar un minuto para que el queso no se salga al cortar y córtalas en triángulos.</p></div></li>
         </ol>
-        <aside class="tips"><h2 class="h-small">Notas</h2><ul><li>Si tu sartén es grande, puedes tostar las dos quesadillas a la vez y ahorrar unos minutos.</li></ul></aside>
+        <aside class="tips"><h2 class="h-small">Notas</h2><ul><li>Si tu sartén es grande, puedes tostar dos quesadillas a la vez y ahorrar unos minutos.</li></ul></aside>
       </section>
     </div>
   </article>

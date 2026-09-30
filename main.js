@@ -143,6 +143,80 @@
     });
   }
 
+  /* Selector de raciones: recalcula las cantidades de los ingredientes */
+  var FRACS = { 25: "¼", 50: "½", 75: "¾" };
+  function fmtQty(v) {
+    var whole = Math.floor(v + 1e-9), frac = Math.round((v - whole) * 100);
+    if (!frac) return String(whole);
+    var f = FRACS[frac] || String(Math.round((v - whole) * 100) / 100);
+    return whole ? whole + " " + f : f;
+  }
+  function roundQty(v, unit) {
+    if (unit === "w") return v < 20 ? Math.max(1, Math.round(v)) : Math.round(v / 5) * 5;
+    if (v < 1) return Math.max(0.25, Math.round(v * 4) / 4);
+    return Math.round(v * 2) / 2;
+  }
+
+  function initServings() {
+    var box = document.querySelector("[data-servings]");
+    if (!box) return;
+    var base = parseInt(box.getAttribute("data-base"), 10);
+    var MIN = 1, MAX = 8;
+    var valEl = box.querySelector(".stepper-val b");
+    var wordEl = box.querySelector(".stepper-val span");
+    var btns = box.querySelectorAll(".stepper-btn");
+    var note = document.querySelector("[data-servings-note]");
+    var labels = document.querySelectorAll("[data-servings-label]");
+    var items = document.querySelectorAll(".checklist li");
+    var n = base;
+    try {
+      var saved = parseInt(localStorage.getItem("r20:servings"), 10);
+      if (saved >= MIN && saved <= MAX) n = saved;
+    } catch (e) { /* sin almacenamiento */ }
+
+    function render() {
+      var k = n / base;
+      items.forEach(function (li) {
+        var last = 1;
+        li.querySelectorAll(".q, .pl").forEach(function (el) {
+          if (el.classList.contains("q")) {
+            var u = el.getAttribute("data-u");
+            var q2 = el.getAttribute("data-q2");
+            var lo = parseFloat(el.getAttribute("data-q")) * k;
+            /* En los rangos (p. ej. 3–4 dientes) se redondea a unidades enteras */
+            lo = q2 && u === "n" ? Math.max(1, Math.round(lo)) : roundQty(lo, u);
+            var txt = fmtQty(lo);
+            last = lo;
+            if (q2) {
+              var hi = parseFloat(q2) * k;
+              hi = u === "n" ? Math.max(1, Math.round(hi)) : roundQty(hi, u);
+              if (hi > lo) { txt += "–" + fmtQty(hi); last = hi; }
+            }
+            el.textContent = txt;
+          } else {
+            el.textContent = last > 1 ? el.getAttribute("data-many") : el.getAttribute("data-one");
+          }
+        });
+      });
+      var word = n === 1 ? "persona" : "personas";
+      valEl.textContent = n;
+      wordEl.textContent = word;
+      labels.forEach(function (l) { l.textContent = n + " " + word; });
+      btns[0].disabled = n <= MIN;
+      btns[1].disabled = n >= MAX;
+      if (note) note.hidden = n === base;
+    }
+
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        n = Math.min(MAX, Math.max(MIN, n + parseInt(b.getAttribute("data-step"), 10)));
+        try { localStorage.setItem("r20:servings", String(n)); } catch (e) { /* sin almacenamiento */ }
+        render();
+      });
+    });
+    render();
+  }
+
   function initPrint() {
     var b = document.querySelector("[data-print]");
     if (b) b.addEventListener("click", function () { window.print(); });
@@ -154,6 +228,7 @@
     safe(initFilters, "initFilters");
     safe(initSteps, "initSteps");
     safe(initTimers, "initTimers");
+    safe(initServings, "initServings");
     safe(initPrint, "initPrint");
   }
 
