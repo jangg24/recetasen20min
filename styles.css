@@ -237,7 +237,7 @@ em { font-style: italic; }
 .facts { display: flex; flex-wrap: wrap; gap: 0; margin: 0; border-block: 1px solid var(--line-strong); }
 .fact { padding: 16px clamp(16px, 2.4vw, 32px) 16px 0; margin-right: clamp(16px, 2.4vw, 32px); border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: center; }
 .fact:last-child { border-right: 0; }
-.fact--time { flex-direction: row; align-items: center; gap: 14px; }
+.fact--time { flex-direction: row; align-items: center; justify-content: flex-start; gap: 14px; }
 .fact dt { font: 600 .68rem/1.2 var(--f-sans); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-mute); }
 .fact dd { margin: .25rem 0 0; font: 500 1.2rem/1.2 var(--f-display); }
 .recipe-fig { margin: clamp(28px, 4vw, 48px) 0 0; aspect-ratio: 16 / 8; overflow: hidden; background: var(--bg-2); }
