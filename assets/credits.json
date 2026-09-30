@@ -1,0 +1,98 @@
+{
+  "carbonara": {
+    "id": "carbonara",
+    "src": "assets/img/carbonara.webp",
+    "title": "Mmm... spaghetti carbonara",
+    "creator": "jeffreyw",
+    "creator_url": "https://www.flickr.com/photos/7927684@N03",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/7927684@N03/20220415350",
+    "source": "flickr"
+  },
+  "gambas-al-ajillo": {
+    "id": "gambas-al-ajillo",
+    "src": "assets/img/gambas-al-ajillo.webp",
+    "title": "gambrinus cerveceria gambas al ajillo",
+    "creator": "goodiesfirst",
+    "creator_url": "https://www.flickr.com/photos/49215102@N00",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/49215102@N00/3469398985",
+    "source": "flickr"
+  },
+  "ensalada-caprese": {
+    "id": "ensalada-caprese",
+    "src": "assets/img/ensalada-caprese.webp",
+    "title": "caprese salad",
+    "creator": "amlamster",
+    "creator_url": "https://www.flickr.com/photos/35892836@N07",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/35892836@N07/6662178673",
+    "source": "flickr"
+  },
+  "salmon-con-esparragos": {
+    "id": "salmon-con-esparragos",
+    "src": "assets/img/salmon-con-esparragos.webp",
+    "title": "Salmon, Asparagus, and Cous cous",
+    "creator": "leighklotz",
+    "creator_url": "https://www.flickr.com/photos/7417392@N05",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/7417392@N05/32760223020",
+    "source": "flickr"
+  },
+  "quesadillas": {
+    "id": "quesadillas",
+    "src": "assets/img/quesadillas.webp",
+    "title": "quesadillas",
+    "creator": "plasticrevolver",
+    "creator_url": "https://www.flickr.com/photos/31474531@N00",
+    "license": "by-sa",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/31474531@N00/5452560446",
+    "source": "flickr"
+  },
+  "cuscus-con-verduras": {
+    "id": "cuscus-con-verduras",
+    "src": "assets/img/cuscus-con-verduras.webp",
+    "title": "Healthy Couscous vegetables pan",
+    "creator": "Jakub Kapusnak",
+    "creator_url": "",
+    "license": "cc0",
+    "license_version": "1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "foreign_landing_url": "https://www.rawpixel.com/image/447705/couscous-with-broccoli",
+    "source": "rawpixel"
+  },
+  "aglio-olio": {
+    "id": "aglio-olio",
+    "src": "assets/img/aglio-olio.webp",
+    "title": "Spaghetti Aglio, Olio e Peperoncino（ペペロンチーノ）",
+    "creator": "kawanet",
+    "creator_url": "https://www.flickr.com/photos/50902562@N00",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/50902562@N00/138067687",
+    "source": "flickr"
+  },
+  "salteado-de-pollo": {
+    "id": "salteado-de-pollo",
+    "src": "assets/img/salteado-de-pollo.webp",
+    "title": "Chicken Stir Fry",
+    "creator": "TheGirlsNY",
+    "creator_url": "https://www.flickr.com/photos/55768440@N00",
+    "license": "by-sa",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/55768440@N00/6728585965",
+    "source": "flickr"
+  }
+}
