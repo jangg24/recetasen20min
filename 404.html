@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lista de la compra · Recetas en 20 minutos</title>
-  <meta name="description" content="Lista de la compra con los ingredientes de las recetas que elijas.">
+  <title>Página no encontrada · Recetas en 20 minutos</title>
+  <meta name="description" content="Esta página no existe.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#171411" media="(prefers-color-scheme: dark)">
@@ -17,7 +17,7 @@
   <script defer src="lib/recetas.js?v=20261001"></script>
   <script defer src="main.js?v=20261001"></script>
 </head>
-<body class="page-list">
+<body class="page-404">
 <a class="skip" href="#contenido">Saltar al contenido</a>
 <div class="progress" aria-hidden="true"><span></span></div>
 <header class="masthead">
@@ -28,36 +28,17 @@
     <a href="index.html#recetas">Recetas</a>
     <a href="index.html#nevera" class="nav-opt">¿Qué tengo en la nevera?</a>
     <a href="index.html#tiempos" class="nav-opt">Cómo medimos el tiempo</a>
-    <a href="lista.html" class="nav-list" aria-current="page">Lista de la compra<span class="nav-count" data-list-count hidden></span></a>
+    <a href="lista.html" class="nav-list">Lista de la compra<span class="nav-count" data-list-count hidden></span></a>
   </nav>
 </header>
-<main id="contenido" class="shop">
-  <p class="kicker"><a href="index.html#recetas">← Volver a las recetas</a></p>
-  <h1 class="recipe-title">Lista de la <em>compra</em></h1>
-  <p class="recipe-lede">Añade recetas desde su página con el botón «Añadir a la lista de la compra». Aquí se juntan sus ingredientes, con las cantidades sumadas cuando coinciden.</p>
-  <div class="shop-empty" data-shop-empty>
-    <p>Tu lista está vacía.</p>
-    <a class="btn" href="index.html#recetas">Elegir recetas</a>
+<main id="contenido" class="notfound">
+  <p class="notfound-num" aria-hidden="true">404′</p>
+  <h1 class="recipe-title">Esta página <em>no existe</em></h1>
+  <p class="recipe-lede">Puede que el enlace esté mal escrito o que la página se haya movido. Las recetas siguen en su sitio.</p>
+  <div class="actions">
+    <a class="btn" href="index.html#recetas">Ver las recetas</a>
+    <a class="btn btn--line" href="index.html#nevera">¿Qué tengo en la nevera?</a>
   </div>
-  <div class="shop-grid" data-shop hidden>
-    <section class="box">
-      <h2 class="h-small">Recetas en la lista</h2>
-      <ul class="shop-recipes" data-shop-recipes></ul>
-    </section>
-    <section class="box">
-      <h2 class="h-small">Ingredientes <span data-shop-total></span></h2>
-      <ul class="checklist" data-shop-items></ul>
-      <p class="servings-note">Cantidades recalculadas y redondeadas a partir de cada receta. Los ingredientes sin cantidad (sal, pimienta…) aparecen una sola vez.</p>
-      <div class="actions">
-        <button type="button" class="btn" data-shop-share>Enviar lista</button>
-        <button type="button" class="btn btn--line" data-shop-copy>Copiar</button>
-        <button type="button" class="btn btn--line" data-shop-print>Imprimir</button>
-        <button type="button" class="linkbtn" data-shop-clear>Vaciar lista</button>
-        <span class="toast" role="status" aria-live="polite" data-toast></span>
-      </div>
-    </section>
-  </div>
-  <noscript><p>La lista de la compra necesita JavaScript activado.</p></noscript>
 </main>
 <footer class="footer">
   <div class="footer-inner">

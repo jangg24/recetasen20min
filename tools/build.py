@@ -96,6 +96,31 @@ def figure(r, cls, eager=False, sizes=""):
             f'<span class="ph-name">{e(r["title"])}</span></figure>')
 
 
+import unicodedata
+
+# Ingredientes que hacen que una receta no sea vegetariana (sin carne ni pescado)
+NO_VEG = ["guanciale", "panceta", "gambas", "salmón", "pollo", "atún", "jamón", "anchoa", "bacon", "chorizo", "carne"]
+
+
+def is_veg(r):
+    text = " ".join(r["ingredients"]).lower()
+    return not any(w in text for w in NO_VEG)
+
+
+def norm(t):
+    """Texto en minúsculas y sin tildes, para el buscador."""
+    t = re.sub(r"[\[\]{}|]", " ", t.lower())
+    return "".join(c for c in unicodedata.normalize("NFD", t) if unicodedata.category(c) != "Mn")
+
+
+def search_text(r):
+    return norm(" ".join([r["title"], r["category"], r["summary"]] + r["ingredients"]))
+
+
+VEG_NOTE = ("Vegetariana: sin carne ni pescado. Algunos quesos se elaboran con cuajo animal; "
+            "si te importa, revisa la etiqueta.")
+
+
 def personas(n):
     return f"{n} persona" if n == 1 else f"{n} personas"
 
@@ -191,10 +216,27 @@ def build_data():
     """lib/recetas.js: datos para el buscador y la lista de la compra."""
     data = [{"slug": r["slug"], "title": r["title"], "category": r["category"], "servings": r["servings"],
              "total": r["total"], "need": r["need"], "ingredients": r["ingredients"],
-             "img": img_path(r["slug"])} for r in RECIPES]
+             "img": img_path(r["slug"]), "veg": is_veg(r)} for r in RECIPES]
     js = ("/* Generado por tools/build.py: no editar a mano. */\n(function () {\n  window.__RECETAS__ = "
           + json.dumps(data, ensure_ascii=False, indent=1) + ";\n})();\n")
     (ROOT / "lib" / "recetas.js").write_text(js, encoding="utf-8")
+
+
+def build_404():
+    out = head(f"Página no encontrada · {SITE}", "Esta página no existe.")
+    out += f"""
+<body class="page-404">{masthead()}
+<main id="contenido" class="notfound">
+  <p class="notfound-num" aria-hidden="true">404′</p>
+  <h1 class="recipe-title">Esta página <em>no existe</em></h1>
+  <p class="recipe-lede">Puede que el enlace esté mal escrito o que la página se haya movido. Las recetas siguen en su sitio.</p>
+  <div class="actions">
+    <a class="btn" href="index.html#recetas">Ver las recetas</a>
+    <a class="btn btn--line" href="index.html#nevera">¿Qué tengo en la nevera?</a>
+  </div>
+</main>"""
+    out += footer()
+    (ROOT / "404.html").write_text(out, encoding="utf-8")
 
 
 def build_list():
@@ -235,14 +277,15 @@ def build_list():
 
 def card(r, i):
     return f"""
-    <article class="card reveal" data-cat="{e(r['category'])}">
+    <article class="card reveal" data-cat="{e(r['category'])}" data-slug="{r['slug']}" data-time="{r['total']}" data-veg="{1 if is_veg(r) else 0}" data-q="{e(search_text(r))}">
+      <button type="button" class="fav js-only" data-fav="{r['slug']}" aria-pressed="false" aria-label="Guardar «{e(r['title'])}» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-{r['slug']}.html">
         {figure(r, 'card-fig')}
         <div class="card-body">
           <p class="kicker"><span>{i:02d}</span> {e(r['category'])}</p>
           <h3 class="card-title">{e(r['title'])}</h3>
           <p class="card-sum">{e(r['summary'])}</p>
-          <p class="card-meta">{dial(r['total'])}<span>{personas(r['servings'])} · {e(r['difficulty'])}</span></p>
+          <p class="card-meta">{dial(r['total'])}<span>{personas(r['servings'])} · {e(r['difficulty'])}</span>{'<span class="tag-veg" title="' + e(VEG_NOTE) + '">Vegetariana</span>' if is_veg(r) else ''}</p>
         </div>
       </a>
     </article>"""
@@ -302,11 +345,32 @@ def build_index():
     <header class="section-head">
       <p class="kicker">El recetario</p>
       <h2>Todas las recetas</h2>
-      <div class="chips" role="group" aria-label="Filtrar por tipo">
-        <button type="button" class="chip is-on" data-filter="*">Todas</button>{filters}
+      <div class="finder js-only">
+        <label class="search" for="buscar">
+          <span class="visually-hidden">Buscar recetas</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+          <input id="buscar" type="search" placeholder="Busca un plato o ingrediente…" autocomplete="off" data-search>
+        </label>
       </div>
+      <div class="chips" role="group" aria-label="Filtrar por tipo">
+        <button type="button" class="chip is-on" data-filter="*" aria-pressed="true">Todas</button>{filters}
+      </div>
+      <div class="chips chips--extra js-only" role="group" aria-label="Más filtros">
+        <span class="chips-label">Tiempo</span>
+        <button type="button" class="chip chip--sm is-on" data-time="0" aria-pressed="true">Cualquiera</button>
+        <button type="button" class="chip chip--sm" data-time="10" aria-pressed="false">Hasta 10 min</button>
+        <button type="button" class="chip chip--sm" data-time="15" aria-pressed="false">Hasta 15 min</button>
+        <span class="chips-sep" aria-hidden="true"></span>
+        <button type="button" class="chip chip--sm" data-veg-filter aria-pressed="false" title="{e(VEG_NOTE)}">Vegetarianas</button>
+        <button type="button" class="chip chip--sm chip--fav" data-fav-filter aria-pressed="false"><span aria-hidden="true">♥</span> Favoritas <span data-fav-count>0</span></button>
+      </div>
+      <p class="results-count js-only" aria-live="polite" data-results-count></p>
     </header>
     <div class="grid" data-grid>{cards}
+    </div>
+    <div class="no-results" data-no-results hidden>
+      <p>Ninguna receta coincide con esa búsqueda.</p>
+      <button type="button" class="btn btn--line" data-reset-filters>Quitar filtros</button>
     </div>
   </section>
 
@@ -371,11 +435,12 @@ def build_recipe(r, idx):
         <div class="fact fact--time">{dial(r['total'], big=True)}<div><dt>Tiempo total</dt><dd>unos {r['total']} minutos</dd></div></div>
         <div class="fact"><dt>Raciones</dt><dd><span data-servings-label>{personas(r['servings'])}</span></dd></div>
         <div class="fact"><dt>Dificultad</dt><dd>{e(r['difficulty'])}</dd></div>
-        <div class="fact"><dt>Pasos</dt><dd>{len(r['steps'])}</dd></div>
+        <div class="fact"><dt>Pasos</dt><dd>{len(r['steps'])}</dd></div>{'<div class="fact fact--veg"><dt>Tipo</dt><dd title="' + e(VEG_NOTE) + '">Vegetariana</dd></div>' if is_veg(r) else ''}
       </dl>
       <div class="actions js-only">
         <button type="button" class="btn" data-cook>Empezar a cocinar <span aria-hidden="true">→</span></button>
-        <button type="button" class="btn btn--line" data-add-list data-slug="{r['slug']}">Añadir a la lista de la compra</button>
+        <button type="button" class="btn btn--line" data-add-list data-slug="{r['slug']}">Añadir a la lista</button>
+        <button type="button" class="btn btn--line btn--fav" data-fav="{r['slug']}" aria-pressed="false"><span aria-hidden="true">♥</span> <span class="fav-txt">Guardar</span></button>
         <button type="button" class="btn btn--line" data-share>Compartir</button>
         <span class="toast" role="status" aria-live="polite" data-toast></span>
       </div>
@@ -467,6 +532,7 @@ if __name__ == "__main__":
     build_credits()
     build_data()
     build_list()
+    build_404()
     missing = [r["slug"] for r in RECIPES if not img_path(r["slug"])]
     print(f"OK · {len(RECIPES)} recetas · v={VERSION}")
     if missing:

@@ -8,15 +8,15 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#171411" media="(prefers-color-scheme: dark)">
-  <link rel="icon" href="assets/favicon.svg?v=20260930" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon.svg?v=20261001" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Inter+Tight:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..600;1,8..60,300..600&display=swap">
-  <link rel="stylesheet" href="styles.css?v=20260930">
-  <link rel="preload" as="image" href="assets/img/gambas-al-ajillo.webp?v=20260930" fetchpriority="high">
-  <script defer src="lib/manifest.js?v=20260930"></script>
-  <script defer src="lib/recetas.js?v=20260930"></script>
-  <script defer src="main.js?v=20260930"></script>
+  <link rel="stylesheet" href="styles.css?v=20261001">
+  <link rel="preload" as="image" href="assets/img/gambas-al-ajillo.webp?v=20261001" fetchpriority="high">
+  <script defer src="lib/manifest.js?v=20261001"></script>
+  <script defer src="lib/recetas.js?v=20261001"></script>
+  <script defer src="main.js?v=20261001"></script>
 </head>
 <body class="page-recipe" data-slug="gambas-al-ajillo">
 <a class="skip" href="#contenido">Saltar al contenido</a>
@@ -46,12 +46,13 @@
       </dl>
       <div class="actions js-only">
         <button type="button" class="btn" data-cook>Empezar a cocinar <span aria-hidden="true">→</span></button>
-        <button type="button" class="btn btn--line" data-add-list data-slug="gambas-al-ajillo">Añadir a la lista de la compra</button>
+        <button type="button" class="btn btn--line" data-add-list data-slug="gambas-al-ajillo">Añadir a la lista</button>
+        <button type="button" class="btn btn--line btn--fav" data-fav="gambas-al-ajillo" aria-pressed="false"><span aria-hidden="true">♥</span> <span class="fav-txt">Guardar</span></button>
         <button type="button" class="btn btn--line" data-share>Compartir</button>
         <span class="toast" role="status" aria-live="polite" data-toast></span>
       </div>
     </header>
-    <figure class="recipe-fig" style="view-transition-name: foto-gambas-al-ajillo"><img src="assets/img/gambas-al-ajillo.webp?v=20260930" alt="Gambas al ajillo" loading="eager" fetchpriority="high" decoding="sync"><figcaption>Foto ilustrativa: «gambrinus cerveceria gambas al ajillo», goodiesfirst · CC BY 2.0 · <a href="creditos.html">créditos</a></figcaption></figure>
+    <figure class="recipe-fig" style="view-transition-name: foto-gambas-al-ajillo"><img src="assets/img/gambas-al-ajillo.webp?v=20261001" alt="Gambas al ajillo" loading="eager" fetchpriority="high" decoding="sync"><figcaption>Foto ilustrativa: «gambrinus cerveceria gambas al ajillo», goodiesfirst · CC BY 2.0 · <a href="creditos.html">créditos</a></figcaption></figure>
 
     <div class="recipe-grid">
       <aside class="recipe-side">
@@ -95,9 +96,10 @@
   <section class="section section--related">
     <header class="section-head"><p class="kicker">Sigue cocinando</p><h2>Otras recetas</h2></header>
     <div class="grid grid--two">
-    <article class="card reveal" data-cat="Pasta">
+    <article class="card reveal" data-cat="Pasta" data-slug="carbonara" data-time="20" data-veg="0" data-q="espaguetis a la carbonara pasta la receta romana: guanciale, yema de huevo, pecorino y pimienta negra. sin nata: la crema sale del huevo y del agua de coccion.  200  g de espaguetis  100  g de guanciale (o panceta curada si no lo encuentras)  2   yema yemas  de huevo y  1   huevo entero huevos enteros   40  g de queso pecorino romano rallado, y un poco mas para servir pimienta negra recien molida sal gruesa para el agua de coccion">
+      <button type="button" class="fav js-only" data-fav="carbonara" aria-pressed="false" aria-label="Guardar «Espaguetis a la carbonara» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-carbonara.html">
-        <figure class="card-fig" style="view-transition-name: foto-carbonara"><img src="assets/img/carbonara.webp?v=20260930" alt="Espaguetis a la carbonara" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-carbonara"><img src="assets/img/carbonara.webp?v=20261001" alt="Espaguetis a la carbonara" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>01</span> Pasta</p>
           <h3 class="card-title">Espaguetis a la carbonara</h3>
@@ -106,14 +108,15 @@
         </div>
       </a>
     </article>
-    <article class="card reveal" data-cat="Sin cocción">
+    <article class="card reveal" data-cat="Sin cocción" data-slug="ensalada-caprese" data-time="10" data-veg="1" data-q="ensalada caprese sin coccion tomate, mozzarella fresca y albahaca: los colores de la bandera italiana en un plato que no necesita fuego. depende por completo de la calidad del tomate.  2   tomate maduro grande tomates maduros grandes   1   bola bolas  de mozzarella fresca (unos  125  g en total) un punado de hojas de albahaca fresca aceite de oliva virgen extra sal en escamas pimienta negra">
+      <button type="button" class="fav js-only" data-fav="ensalada-caprese" aria-pressed="false" aria-label="Guardar «Ensalada caprese» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-ensalada-caprese.html">
-        <figure class="card-fig" style="view-transition-name: foto-ensalada-caprese"><img src="assets/img/ensalada-caprese.webp?v=20260930" alt="Ensalada caprese" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-ensalada-caprese"><img src="assets/img/ensalada-caprese.webp?v=20261001" alt="Ensalada caprese" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>03</span> Sin cocción</p>
           <h3 class="card-title">Ensalada caprese</h3>
           <p class="card-sum">Tomate, mozzarella fresca y albahaca: los colores de la bandera italiana en un plato que no necesita fuego. Depende por completo de la calidad del tomate.</p>
-          <p class="card-meta"><span class="dial" style="--frac:0.500" aria-label="10 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">10<small>min</small></span></span><span>2 personas · Fácil</span></p>
+          <p class="card-meta"><span class="dial" style="--frac:0.500" aria-label="10 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">10<small>min</small></span></span><span>2 personas · Fácil</span><span class="tag-veg" title="Vegetariana: sin carne ni pescado. Algunos quesos se elaboran con cuajo animal; si te importa, revisa la etiqueta.">Vegetariana</span></p>
         </div>
       </a>
     </article>

@@ -45,23 +45,108 @@
 
   /* Filtro de recetas por tipo */
   function initFilters() {
-    var chips = document.querySelectorAll(".chip[data-filter]");
-    var cards = document.querySelectorAll("[data-grid] .card");
-    if (!chips.length) return;
-    chips.forEach(function (chip) {
+    var grid = document.querySelector("[data-grid]");
+    if (!grid) return;
+    var cards = grid.querySelectorAll(".card");
+    var catChips = document.querySelectorAll(".chip[data-filter]");
+    var timeChips = document.querySelectorAll(".chip[data-time]");
+    var vegChip = document.querySelector("[data-veg-filter]");
+    var favChip = document.querySelector("[data-fav-filter]");
+    var input = document.querySelector("[data-search]");
+    var countEl = document.querySelector("[data-results-count]");
+    var noRes = document.querySelector("[data-no-results]");
+    var st = { cat: "*", q: "", max: 0, veg: false, fav: false };
+
+    function norm(t) {
+      return t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+    }
+    function press(el, on) { el.classList.toggle("is-on", on); el.setAttribute("aria-pressed", on ? "true" : "false"); }
+
+    function apply() {
+      var favs = getFavs(), words = norm(st.q).split(/\s+/).filter(Boolean), n = 0;
+      cards.forEach(function (card) {
+        var q = card.getAttribute("data-q");
+        var show = (st.cat === "*" || card.getAttribute("data-cat") === st.cat) &&
+          (!st.max || parseInt(card.getAttribute("data-time"), 10) <= st.max) &&
+          (!st.veg || card.getAttribute("data-veg") === "1") &&
+          (!st.fav || favs.indexOf(card.getAttribute("data-slug")) !== -1) &&
+          words.every(function (w) { return q.indexOf(w) !== -1; });
+        card.hidden = !show;
+        if (show) { card.classList.add("is-in"); n++; }
+      });
+      if (countEl) countEl.textContent = n === cards.length ? cards.length + " recetas" : n + (n === 1 ? " receta" : " recetas") + " de " + cards.length;
+      if (noRes) {
+        noRes.hidden = n > 0;
+        noRes.querySelector("p").textContent = st.fav && !favs.length ?
+          "Todavía no tienes favoritas: pulsa el corazón de una receta para guardarla." :
+          "Ninguna receta coincide con esa búsqueda.";
+      }
+    }
+    catChips.forEach(function (chip) {
       chip.addEventListener("click", function () {
-        var f = chip.getAttribute("data-filter");
-        chips.forEach(function (c) {
-          c.classList.toggle("is-on", c === chip);
-          c.setAttribute("aria-pressed", c === chip ? "true" : "false");
-        });
-        cards.forEach(function (card) {
-          var show = f === "*" || card.getAttribute("data-cat") === f;
-          card.hidden = !show;
-          if (show) card.classList.add("is-in");
-        });
+        st.cat = chip.getAttribute("data-filter");
+        catChips.forEach(function (c) { press(c, c === chip); });
+        apply();
       });
     });
+    timeChips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        st.max = parseInt(chip.getAttribute("data-time"), 10);
+        timeChips.forEach(function (c) { press(c, c === chip); });
+        apply();
+      });
+    });
+    if (vegChip) vegChip.addEventListener("click", function () { st.veg = !st.veg; press(vegChip, st.veg); apply(); });
+    if (favChip) favChip.addEventListener("click", function () { st.fav = !st.fav; press(favChip, st.fav); apply(); });
+    if (input) input.addEventListener("input", function () { st.q = input.value; apply(); });
+    var reset = document.querySelector("[data-reset-filters]");
+    if (reset) reset.addEventListener("click", function () {
+      st = { cat: "*", q: "", max: 0, veg: false, fav: false };
+      if (input) input.value = "";
+      catChips.forEach(function (c) { press(c, c.getAttribute("data-filter") === "*"); });
+      timeChips.forEach(function (c) { press(c, c.getAttribute("data-time") === "0"); });
+      if (vegChip) press(vegChip, false);
+      if (favChip) press(favChip, false);
+      apply();
+    });
+    document.addEventListener("r20:favs", apply);
+    apply();
+  }
+
+  /* Favoritos (se guardan en el navegador) */
+  var FAV_KEY = "r20:favoritas";
+  function getFavs() {
+    try {
+      var f = JSON.parse(localStorage.getItem(FAV_KEY) || "[]");
+      return Array.isArray(f) ? f : [];
+    } catch (e) { return []; }
+  }
+  function initFavs() {
+    var btns = document.querySelectorAll("[data-fav]");
+    var countEl = document.querySelector("[data-fav-count]");
+    function render() {
+      var favs = getFavs();
+      btns.forEach(function (b) {
+        var on = favs.indexOf(b.getAttribute("data-fav")) !== -1;
+        b.classList.toggle("is-on", on);
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+        var t = b.querySelector(".fav-txt");
+        if (t) t.textContent = on ? "Guardada" : "Guardar";
+      });
+      if (countEl) countEl.textContent = favs.length;
+    }
+    btns.forEach(function (b) {
+      b.addEventListener("click", function (ev) {
+        ev.preventDefault();
+        var favs = getFavs(), slug = b.getAttribute("data-fav"), i = favs.indexOf(slug);
+        if (i === -1) favs.push(slug); else favs.splice(i, 1);
+        try { localStorage.setItem(FAV_KEY, JSON.stringify(favs)); } catch (e) { /* sin almacenamiento */ }
+        render();
+        if (typeof toast === "function" && b.classList.contains("btn--fav")) toast(i === -1 ? "Guardada en favoritas" : "Quitada de favoritas");
+        document.dispatchEvent(new Event("r20:favs"));
+      });
+    });
+    render();
   }
 
   /* Marcar pasos como hechos (se guarda en el navegador) */
@@ -332,9 +417,9 @@
     function current() { return parseInt((box && box.getAttribute("data-current")) || bySlug(slug).servings, 10); }
     function label() {
       var it = getList().filter(function (x) { return x.slug === slug; })[0];
-      if (!it) b.textContent = "Añadir a la lista de la compra";
-      else if (it.n === current()) b.textContent = "En tu lista (" + personas(it.n) + ") · ver lista";
-      else b.textContent = "Actualizar la lista a " + personas(current());
+      if (!it) b.textContent = "Añadir a la lista";
+      else if (it.n === current()) b.textContent = "En tu lista · verla";
+      else b.textContent = "Actualizar a " + personas(current());
       b.classList.toggle("is-in-list", !!it && it.n === current());
     }
     b.addEventListener("click", function () {
@@ -602,6 +687,7 @@
   function boot() {
     safe(initReveals, "initReveals");
     safe(initProgress, "initProgress");
+    safe(initFavs, "initFavs");
     safe(initFilters, "initFilters");
     safe(initSteps, "initSteps");
     safe(initTimers, "initTimers");

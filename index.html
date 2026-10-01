@@ -8,15 +8,15 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#171411" media="(prefers-color-scheme: dark)">
-  <link rel="icon" href="assets/favicon.svg?v=20260930" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon.svg?v=20261001" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Inter+Tight:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..600;1,8..60,300..600&display=swap">
-  <link rel="stylesheet" href="styles.css?v=20260930">
-  <link rel="preload" as="image" href="assets/img/carbonara.webp?v=20260930" fetchpriority="high">
-  <script defer src="lib/manifest.js?v=20260930"></script>
-  <script defer src="lib/recetas.js?v=20260930"></script>
-  <script defer src="main.js?v=20260930"></script>
+  <link rel="stylesheet" href="styles.css?v=20261001">
+  <link rel="preload" as="image" href="assets/img/carbonara.webp?v=20261001" fetchpriority="high">
+  <script defer src="lib/manifest.js?v=20261001"></script>
+  <script defer src="lib/recetas.js?v=20261001"></script>
+  <script defer src="main.js?v=20261001"></script>
 </head>
 <body class="page-home">
 <a class="skip" href="#contenido">Saltar al contenido</a>
@@ -41,7 +41,7 @@
       <a class="btn" href="#recetas">Ver las recetas <span aria-hidden="true">↓</span></a>
     </div>
     <a class="hero-feature" href="receta-carbonara.html">
-      <figure class="hero-fig"><img src="assets/img/carbonara.webp?v=20260930" alt="Espaguetis a la carbonara" loading="eager" fetchpriority="high" decoding="sync"></figure>
+      <figure class="hero-fig"><img src="assets/img/carbonara.webp?v=20261001" alt="Espaguetis a la carbonara" loading="eager" fetchpriority="high" decoding="sync"></figure>
       <span class="hero-cap"><span class="kicker">Para empezar</span><strong>Espaguetis a la carbonara</strong><span class="dial" style="--frac:1.000" aria-label="20 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">20<small>min</small></span></span></span>
     </a>
     <div class="hero-clock" aria-hidden="true">
@@ -68,14 +68,32 @@
     <header class="section-head">
       <p class="kicker">El recetario</p>
       <h2>Todas las recetas</h2>
-      <div class="chips" role="group" aria-label="Filtrar por tipo">
-        <button type="button" class="chip is-on" data-filter="*">Todas</button><button type="button" class="chip" data-filter="Pasta">Pasta</button><button type="button" class="chip" data-filter="Pescado y marisco">Pescado y marisco</button><button type="button" class="chip" data-filter="Sin cocción">Sin cocción</button><button type="button" class="chip" data-filter="Verduras">Verduras</button><button type="button" class="chip" data-filter="Carne">Carne</button><button type="button" class="chip" data-filter="Desayuno">Desayuno</button><button type="button" class="chip" data-filter="Postre">Postre</button>
+      <div class="finder js-only">
+        <label class="search" for="buscar">
+          <span class="visually-hidden">Buscar recetas</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+          <input id="buscar" type="search" placeholder="Busca un plato o ingrediente…" autocomplete="off" data-search>
+        </label>
       </div>
+      <div class="chips" role="group" aria-label="Filtrar por tipo">
+        <button type="button" class="chip is-on" data-filter="*" aria-pressed="true">Todas</button><button type="button" class="chip" data-filter="Pasta">Pasta</button><button type="button" class="chip" data-filter="Pescado y marisco">Pescado y marisco</button><button type="button" class="chip" data-filter="Sin cocción">Sin cocción</button><button type="button" class="chip" data-filter="Verduras">Verduras</button><button type="button" class="chip" data-filter="Carne">Carne</button><button type="button" class="chip" data-filter="Desayuno">Desayuno</button><button type="button" class="chip" data-filter="Postre">Postre</button>
+      </div>
+      <div class="chips chips--extra js-only" role="group" aria-label="Más filtros">
+        <span class="chips-label">Tiempo</span>
+        <button type="button" class="chip chip--sm is-on" data-time="0" aria-pressed="true">Cualquiera</button>
+        <button type="button" class="chip chip--sm" data-time="10" aria-pressed="false">Hasta 10 min</button>
+        <button type="button" class="chip chip--sm" data-time="15" aria-pressed="false">Hasta 15 min</button>
+        <span class="chips-sep" aria-hidden="true"></span>
+        <button type="button" class="chip chip--sm" data-veg-filter aria-pressed="false" title="Vegetariana: sin carne ni pescado. Algunos quesos se elaboran con cuajo animal; si te importa, revisa la etiqueta.">Vegetarianas</button>
+        <button type="button" class="chip chip--sm chip--fav" data-fav-filter aria-pressed="false"><span aria-hidden="true">♥</span> Favoritas <span data-fav-count>0</span></button>
+      </div>
+      <p class="results-count js-only" aria-live="polite" data-results-count></p>
     </header>
     <div class="grid" data-grid>
-    <article class="card reveal" data-cat="Pasta">
+    <article class="card reveal" data-cat="Pasta" data-slug="carbonara" data-time="20" data-veg="0" data-q="espaguetis a la carbonara pasta la receta romana: guanciale, yema de huevo, pecorino y pimienta negra. sin nata: la crema sale del huevo y del agua de coccion.  200  g de espaguetis  100  g de guanciale (o panceta curada si no lo encuentras)  2   yema yemas  de huevo y  1   huevo entero huevos enteros   40  g de queso pecorino romano rallado, y un poco mas para servir pimienta negra recien molida sal gruesa para el agua de coccion">
+      <button type="button" class="fav js-only" data-fav="carbonara" aria-pressed="false" aria-label="Guardar «Espaguetis a la carbonara» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-carbonara.html">
-        <figure class="card-fig" style="view-transition-name: foto-carbonara"><img src="assets/img/carbonara.webp?v=20260930" alt="Espaguetis a la carbonara" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-carbonara"><img src="assets/img/carbonara.webp?v=20261001" alt="Espaguetis a la carbonara" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>01</span> Pasta</p>
           <h3 class="card-title">Espaguetis a la carbonara</h3>
@@ -84,9 +102,10 @@
         </div>
       </a>
     </article>
-    <article class="card reveal" data-cat="Pescado y marisco">
+    <article class="card reveal" data-cat="Pescado y marisco" data-slug="gambas-al-ajillo" data-time="15" data-veg="0" data-q="gambas al ajillo pescado y marisco un clasico de la cocina espanola: gambas cocinadas en aceite de oliva con ajo laminado y guindilla. se sirven hirviendo, con pan para mojar.  300  g de gambas peladas (crudas)  4   diente dientes  de ajo  1   guindilla guindillas  (cayena)  seca secas   80  ml de aceite de oliva virgen extra un punado de perejil fresco sal pan, para acompanar">
+      <button type="button" class="fav js-only" data-fav="gambas-al-ajillo" aria-pressed="false" aria-label="Guardar «Gambas al ajillo» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-gambas-al-ajillo.html">
-        <figure class="card-fig" style="view-transition-name: foto-gambas-al-ajillo"><img src="assets/img/gambas-al-ajillo.webp?v=20260930" alt="Gambas al ajillo" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-gambas-al-ajillo"><img src="assets/img/gambas-al-ajillo.webp?v=20261001" alt="Gambas al ajillo" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>02</span> Pescado y marisco</p>
           <h3 class="card-title">Gambas al ajillo</h3>
@@ -95,20 +114,22 @@
         </div>
       </a>
     </article>
-    <article class="card reveal" data-cat="Sin cocción">
+    <article class="card reveal" data-cat="Sin cocción" data-slug="ensalada-caprese" data-time="10" data-veg="1" data-q="ensalada caprese sin coccion tomate, mozzarella fresca y albahaca: los colores de la bandera italiana en un plato que no necesita fuego. depende por completo de la calidad del tomate.  2   tomate maduro grande tomates maduros grandes   1   bola bolas  de mozzarella fresca (unos  125  g en total) un punado de hojas de albahaca fresca aceite de oliva virgen extra sal en escamas pimienta negra">
+      <button type="button" class="fav js-only" data-fav="ensalada-caprese" aria-pressed="false" aria-label="Guardar «Ensalada caprese» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-ensalada-caprese.html">
-        <figure class="card-fig" style="view-transition-name: foto-ensalada-caprese"><img src="assets/img/ensalada-caprese.webp?v=20260930" alt="Ensalada caprese" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-ensalada-caprese"><img src="assets/img/ensalada-caprese.webp?v=20261001" alt="Ensalada caprese" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>03</span> Sin cocción</p>
           <h3 class="card-title">Ensalada caprese</h3>
           <p class="card-sum">Tomate, mozzarella fresca y albahaca: los colores de la bandera italiana en un plato que no necesita fuego. Depende por completo de la calidad del tomate.</p>
-          <p class="card-meta"><span class="dial" style="--frac:0.500" aria-label="10 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">10<small>min</small></span></span><span>2 personas · Fácil</span></p>
+          <p class="card-meta"><span class="dial" style="--frac:0.500" aria-label="10 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">10<small>min</small></span></span><span>2 personas · Fácil</span><span class="tag-veg" title="Vegetariana: sin carne ni pescado. Algunos quesos se elaboran con cuajo animal; si te importa, revisa la etiqueta.">Vegetariana</span></p>
         </div>
       </a>
     </article>
-    <article class="card reveal" data-cat="Pescado y marisco">
+    <article class="card reveal" data-cat="Pescado y marisco" data-slug="salmon-con-esparragos" data-time="20" data-veg="0" data-q="salmon a la plancha con esparragos trigueros pescado y marisco lomos de salmon con la piel crujiente y esparragos trigueros salteados en la misma sarten. se termina con unas gotas de limon.  2   lomo lomos  de salmon con piel (unos 150 g cada uno)  1   manojo manojos  de esparragos trigueros (unos  250  g en total)  1   limon limones   2   cucharada cucharadas  de aceite de oliva sal pimienta negra">
+      <button type="button" class="fav js-only" data-fav="salmon-con-esparragos" aria-pressed="false" aria-label="Guardar «Salmón a la plancha con espárragos trigueros» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-salmon-con-esparragos.html">
-        <figure class="card-fig" style="view-transition-name: foto-salmon-con-esparragos"><img src="assets/img/salmon-con-esparragos.webp?v=20260930" alt="Salmón a la plancha con espárragos trigueros" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-salmon-con-esparragos"><img src="assets/img/salmon-con-esparragos.webp?v=20261001" alt="Salmón a la plancha con espárragos trigueros" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>04</span> Pescado y marisco</p>
           <h3 class="card-title">Salmón a la plancha con espárragos trigueros</h3>
@@ -117,42 +138,46 @@
         </div>
       </a>
     </article>
-    <article class="card reveal" data-cat="Verduras">
+    <article class="card reveal" data-cat="Verduras" data-slug="quesadillas" data-time="20" data-veg="1" data-q="quesadillas de queso y champinones verduras tortillas de trigo dobladas y tostadas en sarten, rellenas de queso fundido y champinones salteados con cebolla.  2   tortilla tortillas  de trigo  grande grandes   150  g de queso que funda bien (oaxaca, mozzarella o cheddar), rallado  150  g de champinones  0.5   cebolla cebollas   1   cucharada cucharadas  de aceite de oliva sal">
+      <button type="button" class="fav js-only" data-fav="quesadillas" aria-pressed="false" aria-label="Guardar «Quesadillas de queso y champiñones» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-quesadillas.html">
-        <figure class="card-fig" style="view-transition-name: foto-quesadillas"><img src="assets/img/quesadillas.webp?v=20260930" alt="Quesadillas de queso y champiñones" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-quesadillas"><img src="assets/img/quesadillas.webp?v=20261001" alt="Quesadillas de queso y champiñones" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>05</span> Verduras</p>
           <h3 class="card-title">Quesadillas de queso y champiñones</h3>
           <p class="card-sum">Tortillas de trigo dobladas y tostadas en sartén, rellenas de queso fundido y champiñones salteados con cebolla.</p>
-          <p class="card-meta"><span class="dial" style="--frac:1.000" aria-label="20 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">20<small>min</small></span></span><span>2 personas · Fácil</span></p>
+          <p class="card-meta"><span class="dial" style="--frac:1.000" aria-label="20 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">20<small>min</small></span></span><span>2 personas · Fácil</span><span class="tag-veg" title="Vegetariana: sin carne ni pescado. Algunos quesos se elaboran con cuajo animal; si te importa, revisa la etiqueta.">Vegetariana</span></p>
         </div>
       </a>
     </article>
-    <article class="card reveal" data-cat="Verduras">
+    <article class="card reveal" data-cat="Verduras" data-slug="cuscus-con-verduras" data-time="20" data-veg="1" data-q="cuscus con verduras salteadas verduras la semola de cuscus precocida solo necesita liquido caliente y unos minutos de reposo; mientras tanto, se saltean las verduras.  150  g de cuscus (semola precocida)  150  ml de agua o caldo de verduras  1   calabacin calabacines   1   pimiento rojo pimientos rojos   0.5   cebolla cebollas   2   cucharada cucharadas  de aceite de oliva  1   cucharadita cucharaditas  de comino molido sal pimienta negra">
+      <button type="button" class="fav js-only" data-fav="cuscus-con-verduras" aria-pressed="false" aria-label="Guardar «Cuscús con verduras salteadas» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-cuscus-con-verduras.html">
-        <figure class="card-fig" style="view-transition-name: foto-cuscus-con-verduras"><img src="assets/img/cuscus-con-verduras.webp?v=20260930" alt="Cuscús con verduras salteadas" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-cuscus-con-verduras"><img src="assets/img/cuscus-con-verduras.webp?v=20261001" alt="Cuscús con verduras salteadas" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>06</span> Verduras</p>
           <h3 class="card-title">Cuscús con verduras salteadas</h3>
           <p class="card-sum">La sémola de cuscús precocida solo necesita líquido caliente y unos minutos de reposo; mientras tanto, se saltean las verduras.</p>
-          <p class="card-meta"><span class="dial" style="--frac:1.000" aria-label="20 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">20<small>min</small></span></span><span>2 personas · Fácil</span></p>
+          <p class="card-meta"><span class="dial" style="--frac:1.000" aria-label="20 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">20<small>min</small></span></span><span>2 personas · Fácil</span><span class="tag-veg" title="Vegetariana: sin carne ni pescado. Algunos quesos se elaboran con cuajo animal; si te importa, revisa la etiqueta.">Vegetariana</span></p>
         </div>
       </a>
     </article>
-    <article class="card reveal" data-cat="Pasta">
+    <article class="card reveal" data-cat="Pasta" data-slug="aglio-olio" data-time="20" data-veg="1" data-q="espaguetis aglio, olio e peperoncino pasta pasta con ajo, aceite de oliva y guindilla: pocos ingredientes y una tecnica sencilla para que el aceite y el agua de coccion formen una salsa.  200  g de espaguetis  3-4   diente dientes  de ajo  1   guindilla guindillas  (cayena)  seca secas , o una pizca de copos de guindilla  60  ml de aceite de oliva virgen extra un punado de perejil fresco sal gruesa para el agua de coccion">
+      <button type="button" class="fav js-only" data-fav="aglio-olio" aria-pressed="false" aria-label="Guardar «Espaguetis aglio, olio e peperoncino» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-aglio-olio.html">
-        <figure class="card-fig" style="view-transition-name: foto-aglio-olio"><img src="assets/img/aglio-olio.webp?v=20260930" alt="Espaguetis aglio, olio e peperoncino" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-aglio-olio"><img src="assets/img/aglio-olio.webp?v=20261001" alt="Espaguetis aglio, olio e peperoncino" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>07</span> Pasta</p>
           <h3 class="card-title">Espaguetis aglio, olio e peperoncino</h3>
           <p class="card-sum">Pasta con ajo, aceite de oliva y guindilla: pocos ingredientes y una técnica sencilla para que el aceite y el agua de cocción formen una salsa.</p>
-          <p class="card-meta"><span class="dial" style="--frac:1.000" aria-label="20 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">20<small>min</small></span></span><span>2 personas · Fácil</span></p>
+          <p class="card-meta"><span class="dial" style="--frac:1.000" aria-label="20 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">20<small>min</small></span></span><span>2 personas · Fácil</span><span class="tag-veg" title="Vegetariana: sin carne ni pescado. Algunos quesos se elaboran con cuajo animal; si te importa, revisa la etiqueta.">Vegetariana</span></p>
         </div>
       </a>
     </article>
-    <article class="card reveal" data-cat="Carne">
+    <article class="card reveal" data-cat="Carne" data-slug="salteado-de-pollo" data-time="20" data-veg="0" data-q="salteado de pollo con verduras carne tiras de pechuga de pollo y verduras en juliana, salteadas a fuego fuerte en wok y terminadas con salsa de soja.  300  g de pechuga de pollo  1   pimiento rojo pimientos rojos   1   calabacin calabacines   1   zanahoria zanahorias   0.5   cebolla cebollas   2   diente dientes  de ajo  1   trozo trozos  de jengibre fresco de 2 cm (opcional)  3   cucharada cucharadas  de salsa de soja  1   cucharada cucharadas  de aceite de girasol sal">
+      <button type="button" class="fav js-only" data-fav="salteado-de-pollo" aria-pressed="false" aria-label="Guardar «Salteado de pollo con verduras» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-salteado-de-pollo.html">
-        <figure class="card-fig" style="view-transition-name: foto-salteado-de-pollo"><img src="assets/img/salteado-de-pollo.webp?v=20260930" alt="Salteado de pollo con verduras" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-salteado-de-pollo"><img src="assets/img/salteado-de-pollo.webp?v=20261001" alt="Salteado de pollo con verduras" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>08</span> Carne</p>
           <h3 class="card-title">Salteado de pollo con verduras</h3>
@@ -161,72 +186,82 @@
         </div>
       </a>
     </article>
-    <article class="card reveal" data-cat="Desayuno">
+    <article class="card reveal" data-cat="Desayuno" data-slug="tortitas" data-time="20" data-veg="1" data-q="tortitas esponjosas desayuno tortitas de sarten tipo americano: una masa de harina, huevo y leche que se hace en un bol y se cocina por tandas en pocos minutos.  125  g de harina de trigo  1   huevo huevos   200  ml de leche  1   cucharada cucharadas  de azucar  1   cucharadita cucharaditas  de levadura quimica (polvo de hornear)  15  g de mantequilla, y un poco mas para la sarten una pizca de sal para servir: miel, sirope o fruta (opcional)">
+      <button type="button" class="fav js-only" data-fav="tortitas" aria-pressed="false" aria-label="Guardar «Tortitas esponjosas» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-tortitas.html">
-        <figure class="card-fig" style="view-transition-name: foto-tortitas"><img src="assets/img/tortitas.webp?v=20260930" alt="Tortitas esponjosas" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-tortitas"><img src="assets/img/tortitas.webp?v=20261001" alt="Tortitas esponjosas" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>09</span> Desayuno</p>
           <h3 class="card-title">Tortitas esponjosas</h3>
           <p class="card-sum">Tortitas de sartén tipo americano: una masa de harina, huevo y leche que se hace en un bol y se cocina por tandas en pocos minutos.</p>
-          <p class="card-meta"><span class="dial" style="--frac:1.000" aria-label="20 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">20<small>min</small></span></span><span>2 personas · Fácil</span></p>
+          <p class="card-meta"><span class="dial" style="--frac:1.000" aria-label="20 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">20<small>min</small></span></span><span>2 personas · Fácil</span><span class="tag-veg" title="Vegetariana: sin carne ni pescado. Algunos quesos se elaboran con cuajo animal; si te importa, revisa la etiqueta.">Vegetariana</span></p>
         </div>
       </a>
     </article>
-    <article class="card reveal" data-cat="Desayuno">
+    <article class="card reveal" data-cat="Desayuno" data-slug="pan-con-tomate" data-time="10" data-veg="1" data-q="pan con tomate desayuno pan tostado con tomate maduro rallado, aceite de oliva y sal. un desayuno de la cocina catalana y del mediterraneo que depende de un buen pan y un buen tomate.  4   rebanada rebanadas  de pan de hogaza o de barra  2   tomate maduro tomates maduros  aceite de oliva virgen extra sal  1   diente dientes  de ajo (opcional)">
+      <button type="button" class="fav js-only" data-fav="pan-con-tomate" aria-pressed="false" aria-label="Guardar «Pan con tomate» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-pan-con-tomate.html">
-        <figure class="card-fig" style="view-transition-name: foto-pan-con-tomate"><img src="assets/img/pan-con-tomate.webp?v=20260930" alt="Pan con tomate" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-pan-con-tomate"><img src="assets/img/pan-con-tomate.webp?v=20261001" alt="Pan con tomate" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>10</span> Desayuno</p>
           <h3 class="card-title">Pan con tomate</h3>
           <p class="card-sum">Pan tostado con tomate maduro rallado, aceite de oliva y sal. Un desayuno de la cocina catalana y del Mediterráneo que depende de un buen pan y un buen tomate.</p>
-          <p class="card-meta"><span class="dial" style="--frac:0.500" aria-label="10 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">10<small>min</small></span></span><span>2 personas · Fácil</span></p>
+          <p class="card-meta"><span class="dial" style="--frac:0.500" aria-label="10 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">10<small>min</small></span></span><span>2 personas · Fácil</span><span class="tag-veg" title="Vegetariana: sin carne ni pescado. Algunos quesos se elaboran con cuajo animal; si te importa, revisa la etiqueta.">Vegetariana</span></p>
         </div>
       </a>
     </article>
-    <article class="card reveal" data-cat="Desayuno">
+    <article class="card reveal" data-cat="Desayuno" data-slug="huevos-revueltos" data-time="10" data-veg="1" data-q="huevos revueltos cremosos desayuno huevos batidos y cuajados despacio en mantequilla, removiendo, para que queden cremosos. se acompanan de pan tostado.  4   huevo huevos   15  g de mantequilla  2   cucharada cucharadas  de leche (opcional) sal pimienta negra  2   rebanada rebanadas  de pan tostado, para acompanar">
+      <button type="button" class="fav js-only" data-fav="huevos-revueltos" aria-pressed="false" aria-label="Guardar «Huevos revueltos cremosos» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-huevos-revueltos.html">
-        <figure class="card-fig" style="view-transition-name: foto-huevos-revueltos"><img src="assets/img/huevos-revueltos.webp?v=20260930" alt="Huevos revueltos cremosos" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-huevos-revueltos"><img src="assets/img/huevos-revueltos.webp?v=20261001" alt="Huevos revueltos cremosos" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>11</span> Desayuno</p>
           <h3 class="card-title">Huevos revueltos cremosos</h3>
           <p class="card-sum">Huevos batidos y cuajados despacio en mantequilla, removiendo, para que queden cremosos. Se acompañan de pan tostado.</p>
-          <p class="card-meta"><span class="dial" style="--frac:0.500" aria-label="10 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">10<small>min</small></span></span><span>2 personas · Fácil</span></p>
+          <p class="card-meta"><span class="dial" style="--frac:0.500" aria-label="10 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">10<small>min</small></span></span><span>2 personas · Fácil</span><span class="tag-veg" title="Vegetariana: sin carne ni pescado. Algunos quesos se elaboran con cuajo animal; si te importa, revisa la etiqueta.">Vegetariana</span></p>
         </div>
       </a>
     </article>
-    <article class="card reveal" data-cat="Postre">
+    <article class="card reveal" data-cat="Postre" data-slug="mug-cake" data-time="5" data-veg="1" data-q="bizcocho de chocolate en taza postre un bizcocho individual (mug cake) que se mezcla en la propia taza y se cocina en el microondas en un par de minutos.  4   cucharada cucharadas  de harina de trigo  4   cucharada cucharadas  de azucar  2   cucharada cucharadas  de cacao en polvo sin azucar  1   huevo huevos   3   cucharada cucharadas  de leche  3   cucharada cucharadas  de aceite de girasol una pizca de sal">
+      <button type="button" class="fav js-only" data-fav="mug-cake" aria-pressed="false" aria-label="Guardar «Bizcocho de chocolate en taza» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-mug-cake.html">
-        <figure class="card-fig" style="view-transition-name: foto-mug-cake"><img src="assets/img/mug-cake.webp?v=20260930" alt="Bizcocho de chocolate en taza" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-mug-cake"><img src="assets/img/mug-cake.webp?v=20261001" alt="Bizcocho de chocolate en taza" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>12</span> Postre</p>
           <h3 class="card-title">Bizcocho de chocolate en taza</h3>
           <p class="card-sum">Un bizcocho individual (mug cake) que se mezcla en la propia taza y se cocina en el microondas en un par de minutos.</p>
-          <p class="card-meta"><span class="dial" style="--frac:0.250" aria-label="5 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">5<small>min</small></span></span><span>1 persona · Fácil</span></p>
+          <p class="card-meta"><span class="dial" style="--frac:0.250" aria-label="5 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">5<small>min</small></span></span><span>1 persona · Fácil</span><span class="tag-veg" title="Vegetariana: sin carne ni pescado. Algunos quesos se elaboran con cuajo animal; si te importa, revisa la etiqueta.">Vegetariana</span></p>
         </div>
       </a>
     </article>
-    <article class="card reveal" data-cat="Postre">
+    <article class="card reveal" data-cat="Postre" data-slug="yogur-con-frutos-rojos" data-time="5" data-veg="1" data-q="yogur con frutos rojos y granola postre capas de yogur, fruta y granola en un vaso. sin coccion y listo en cinco minutos; sirve igual de postre que de desayuno.  250  g de yogur natural o griego  150  g de frutos rojos (fresas, arandanos o frambuesas), frescos o descongelados  40  g de granola  2   cucharadita cucharaditas  de miel (opcional)">
+      <button type="button" class="fav js-only" data-fav="yogur-con-frutos-rojos" aria-pressed="false" aria-label="Guardar «Yogur con frutos rojos y granola» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-yogur-con-frutos-rojos.html">
-        <figure class="card-fig" style="view-transition-name: foto-yogur-con-frutos-rojos"><img src="assets/img/yogur-con-frutos-rojos.webp?v=20260930" alt="Yogur con frutos rojos y granola" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-yogur-con-frutos-rojos"><img src="assets/img/yogur-con-frutos-rojos.webp?v=20261001" alt="Yogur con frutos rojos y granola" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>13</span> Postre</p>
           <h3 class="card-title">Yogur con frutos rojos y granola</h3>
           <p class="card-sum">Capas de yogur, fruta y granola en un vaso. Sin cocción y listo en cinco minutos; sirve igual de postre que de desayuno.</p>
-          <p class="card-meta"><span class="dial" style="--frac:0.250" aria-label="5 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">5<small>min</small></span></span><span>2 personas · Fácil</span></p>
+          <p class="card-meta"><span class="dial" style="--frac:0.250" aria-label="5 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">5<small>min</small></span></span><span>2 personas · Fácil</span><span class="tag-veg" title="Vegetariana: sin carne ni pescado. Algunos quesos se elaboran con cuajo animal; si te importa, revisa la etiqueta.">Vegetariana</span></p>
         </div>
       </a>
     </article>
-    <article class="card reveal" data-cat="Sin cocción">
+    <article class="card reveal" data-cat="Sin cocción" data-slug="ensalada-de-garbanzos" data-time="15" data-veg="1" data-q="ensalada de garbanzos sin coccion garbanzos cocidos de bote con tomate, pepino y cebolla morada, alinados con aceite y vinagre. sin encender el fuego.  250  g de garbanzos cocidos, escurridos (un bote de 400 g suele traer unos 240–250 g)  1   tomate tomates   0.5   pepino pepinos   0.25   cebolla morada cebollas moradas   3   cucharada cucharadas  de aceite de oliva virgen extra  1   cucharada cucharadas  de vinagre de vino sal pimienta negra perejil fresco (opcional)">
+      <button type="button" class="fav js-only" data-fav="ensalada-de-garbanzos" aria-pressed="false" aria-label="Guardar «Ensalada de garbanzos» en favoritos"><span aria-hidden="true">♥</span></button>
       <a class="card-link" href="receta-ensalada-de-garbanzos.html">
-        <figure class="card-fig" style="view-transition-name: foto-ensalada-de-garbanzos"><img src="assets/img/ensalada-de-garbanzos.webp?v=20260930" alt="Ensalada de garbanzos" loading="lazy" decoding="async"></figure>
+        <figure class="card-fig" style="view-transition-name: foto-ensalada-de-garbanzos"><img src="assets/img/ensalada-de-garbanzos.webp?v=20261001" alt="Ensalada de garbanzos" loading="lazy" decoding="async"></figure>
         <div class="card-body">
           <p class="kicker"><span>14</span> Sin cocción</p>
           <h3 class="card-title">Ensalada de garbanzos</h3>
           <p class="card-sum">Garbanzos cocidos de bote con tomate, pepino y cebolla morada, aliñados con aceite y vinagre. Sin encender el fuego.</p>
-          <p class="card-meta"><span class="dial" style="--frac:0.750" aria-label="15 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">15<small>min</small></span></span><span>2 personas · Fácil</span></p>
+          <p class="card-meta"><span class="dial" style="--frac:0.750" aria-label="15 minutos"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="dial-track" cx="22" cy="22" r="19"/><circle class="dial-fill" cx="22" cy="22" r="19" pathLength="100"/></svg><span class="dial-num">15<small>min</small></span></span><span>2 personas · Fácil</span><span class="tag-veg" title="Vegetariana: sin carne ni pescado. Algunos quesos se elaboran con cuajo animal; si te importa, revisa la etiqueta.">Vegetariana</span></p>
         </div>
       </a>
     </article>
+    </div>
+    <div class="no-results" data-no-results hidden>
+      <p>Ninguna receta coincide con esa búsqueda.</p>
+      <button type="button" class="btn btn--line" data-reset-filters>Quitar filtros</button>
     </div>
   </section>
 
