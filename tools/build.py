@@ -312,6 +312,7 @@ def build_index():
     tools_html = "".join(
         f'<li><span class="tool-name">{e(name)}</span><span class="tool-count">{len(rs)} de {len(RECIPES)}</span></li>'
         for name, rs in tools_sorted)
+    top_tools = ", ".join(f"<strong>{e(n.lower() if i else n)}</strong> ({len(rs)} recetas)" for i, (n, rs) in enumerate(tools_sorted[:5]))
     marquee_items = "".join(f"<span>{e(r['title'])}</span><span aria-hidden='true'>✦</span>" for r in RECIPES)
 
     out = head(f"{SITE} · Recetas paso a paso",
@@ -328,18 +329,13 @@ def build_index():
       <a class="btn" href="#recetas">Ver las recetas <span aria-hidden="true">↓</span></a>
     </div>
     <a class="hero-feature" href="receta-{feat['slug']}.html">
+      <span class="hero-clock" aria-hidden="true"><svg viewBox="0 0 200 200"><circle class="clock-track" cx="100" cy="100" r="92"/><circle class="clock-fill" cx="100" cy="100" r="92" pathLength="100"/></svg></span>
       {figure(feat, 'hero-fig', eager=True)}
       <span class="hero-cap"><span class="kicker">Para empezar</span><strong>{e(feat['title'])}</strong>{dial(feat['total'])}</span>
     </a>
-    <div class="hero-clock" aria-hidden="true">
-      <svg viewBox="0 0 200 200"><circle class="clock-track" cx="100" cy="100" r="92"/><circle class="clock-fill" cx="100" cy="100" r="92" pathLength="100"/></svg>
-      <span>20′</span>
-    </div>
   </section>
 
   <div class="marquee" aria-hidden="true"><div class="marquee-track">{marquee_items}{marquee_items}</div></div>
-
-{fridge_html()}
 
   <section class="section" id="recetas">
     <header class="section-head">
@@ -374,6 +370,8 @@ def build_index():
     </div>
   </section>
 
+{fridge_html()}
+
   <section class="section section--split" id="tiempos">
     <div class="split-num" aria-hidden="true">¿20?</div>
     <div class="split-body reveal">
@@ -385,14 +383,14 @@ def build_index():
     </div>
   </section>
 
-  <section class="section" id="utensilios">
-    <header class="section-head">
-      <p class="kicker">Antes de empezar</p>
-      <h2>Los utensilios que vas a usar</h2>
-      <p class="section-lede">Esta es la lista completa de utensilios que aparecen en las recetas, ordenada por las veces que se usan.</p>
-    </header>
-    <ul class="tools reveal">{tools_html}
-    </ul>
+  <section class="section section--tools" id="utensilios">
+    <p class="kicker">Antes de empezar</p>
+    <p class="tools-lede">Los utensilios que más vas a usar: {top_tools}.</p>
+    <details class="tools-more">
+      <summary>Ver los {len(tools_sorted)} utensilios de todas las recetas</summary>
+      <ul class="tools">{tools_html}
+      </ul>
+    </details>
   </section>
 </main>"""
     out += footer()

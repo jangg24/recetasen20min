@@ -29,6 +29,8 @@
   --foot-ink:  #f6f1e7;
   --foot-mute: rgba(246, 241, 231, .68);
   color-scheme: light;
+  /* Tratamiento común para todas las fotos: un poco más cálidas y con algo más de contraste */
+  --photo: saturate(1.06) contrast(1.05) sepia(.1);
 }
 
 /* Modo oscuro automático, según la preferencia del dispositivo */
@@ -50,8 +52,9 @@
     --foot-ink:  #efe8da;
     --foot-mute: rgba(239, 232, 218, .62);
     color-scheme: dark;
+    --photo: saturate(1.06) contrast(1.05) sepia(.1) brightness(.9);
   }
-  img { filter: brightness(.92); }
+
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -185,8 +188,8 @@ em { font-style: italic; }
 .hero-cap .kicker { grid-column: 1 / -1; margin: 0; }
 .hero-cap strong { font: 500 1.3rem/1.15 var(--f-display); }
 .hero-clock {
-  position: absolute; z-index: 0; right: calc(var(--gut) - 4vw); top: 4%;
-  width: clamp(140px, 22vw, 300px); aspect-ratio: 1; pointer-events: none;
+  position: absolute; z-index: -1; right: -56px; top: -72px;
+  width: clamp(150px, 20vw, 270px); aspect-ratio: 1; pointer-events: none;
 }
 .hero-clock svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .hero-clock circle { fill: none; stroke-width: 1.2; }
@@ -229,7 +232,7 @@ em { font-style: italic; }
 .card-link { display: flex; flex-direction: column; height: 100%; text-decoration: none; }
 .card-fig { margin: 0; aspect-ratio: 4 / 3; overflow: hidden; background: var(--bg-2); }
 .card-fig img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease), filter .9s var(--ease); }
-.card-link:hover .card-fig img { transform: scale(1.05); filter: saturate(1.1); }
+.card-link:hover .card-fig img { transform: scale(1.05); filter: var(--photo) saturate(1.1); }
 .card-body { padding-top: 1.1rem; display: flex; flex-direction: column; flex: 1; }
 .card-body .kicker { margin-bottom: .6rem; }
 .card-title {
@@ -364,7 +367,7 @@ html:not(.js) .stepper-val { padding: 10px 14px; }
   .nav a:not(:first-child) { display: none; }
   .brand-txt { font-size: .95rem; }
   .hero { grid-template-columns: 1fr; min-height: 0; padding-top: 36px; }
-  .hero-clock { right: -40px; top: 10px; width: 170px; opacity: .8; }
+  .hero-clock { right: -28px; top: -38px; width: 130px; }
   .hero-fig { aspect-ratio: 4 / 3; }
   .section--split { grid-template-columns: 1fr; }
   .split-num { font-size: 6rem; }
@@ -389,7 +392,7 @@ html:not(.js) .stepper-val { padding: 10px 14px; }
 /* ---------- Print ---------- */
 @media print {
   .masthead, .progress, .footer, .section--related, .timer, [data-print], .skip, .stepper-btn, .actions, .cook, .shop-recipes .mini, .shop-recipes .linkbtn { display: none !important; }
-  :root { --bg: #fff; --ink: #1d1a16; --ink-soft: #3b352e; --ink-mute: #6f675d; --paper: #fff; --line: rgba(0,0,0,.14); --line-strong: #1d1a16; }
+  :root { --photo: none; --bg: #fff; --ink: #1d1a16; --ink-soft: #3b352e; --ink-mute: #6f675d; --paper: #fff; --line: rgba(0,0,0,.14); --line-strong: #1d1a16; }
   img { filter: none; }
   body { background: #fff; font-size: 11pt; }
   .recipe-fig { max-height: 7cm; }
@@ -617,3 +620,19 @@ html:not(.js) .js-only { display: none !important; }
   .chips-sep { display: none; }
   .fav { width: 46px; height: 46px; }
 }
+
+/* Utensilios: resumen corto y lista completa desplegable */
+.section--tools { padding-top: clamp(40px, 6vw, 72px); padding-bottom: clamp(40px, 6vw, 72px); border-top: 1px solid var(--line-strong); }
+.tools-lede { font: 400 clamp(1.15rem, 2vw, 1.45rem)/1.5 var(--f-display); max-width: 60ch; margin: 0 0 1.2rem; }
+.tools-lede strong { font-weight: 600; }
+.tools-more summary {
+  cursor: pointer; display: inline-flex; align-items: center; gap: .5rem;
+  font: 600 .85rem/1 var(--f-sans); padding: 10px 0; list-style: none;
+  text-decoration: underline; text-underline-offset: 4px;
+}
+.tools-more summary::-webkit-details-marker { display: none; }
+.tools-more summary::after { content: "+"; font-size: 1.1rem; color: var(--accent); }
+.tools-more[open] summary::after { content: "−"; }
+.tools-more .tools { margin-top: 1rem; }
+
+.card-fig img, .recipe-fig img, .hero-fig img, .fr img { filter: var(--photo); }
