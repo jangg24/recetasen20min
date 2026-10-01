@@ -1,6 +1,6 @@
 /* ==========================================================================
    Recetas en 20 minutos — estilos
-   Papel cálido, tinta, tomate y albahaca. Bodoni Moda + Source Serif 4.
+   Papel cálido, tinta, tomate y albahaca. Fraunces + Source Serif 4.
    ========================================================================== */
 
 :root {
@@ -15,7 +15,7 @@
   --line:      rgba(29, 26, 22, .14);
   --line-strong: #1d1a16;
 
-  --f-display: "Bodoni Moda", "Didot", Georgia, serif;
+  --f-display: "Fraunces", Georgia, serif;
   --f-body:    "Source Serif 4", Georgia, serif;
   --f-sans:    "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
 
@@ -88,6 +88,14 @@ button { font: inherit; color: inherit; }
 .kicker span { color: var(--ink-mute); margin-right: .35em; }
 
 h1, h2, h3 { font-family: var(--f-display); font-weight: 500; line-height: 1.05; letter-spacing: -.01em; margin: 0; }
+/* Fraunces con el eje SOFT al máximo: terminaciones redondeadas, más cálida */
+h1, h2, h3, .brand-txt, .brand-num, .card-title, .fact dd, .dial-num, .split-num, .step-n, .tool-name, .tools-lede,
+.fr-body strong, .hero-cap strong, .marquee-track span, .cook-n, .cook-title, .ph-mark, .ph-name, .notfound-num,
+.footer-brand, .shop-recipes a, .shop-empty p, .no-results p, .cook-end p {
+  font-variation-settings: "SOFT" 100, "WONK" 0;
+}
+.hero-title, .recipe-title { letter-spacing: -.025em; }
+h2 { letter-spacing: -.02em; }
 h2 { font-size: clamp(2rem, 4.2vw, 3.3rem); }
 em { font-style: italic; }
 .h-small {

@@ -23,8 +23,8 @@ from recipes import RECIPES  # noqa: E402
 
 SITE = "Recetas en 20 minutos"
 VERSION = datetime.date.today().strftime("%Y%m%d")
-FONTS = ("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;"
-         "1,6..96,400..800&family=Inter+Tight:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@"
+FONTS = ("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;"
+         "1,9..144,300..700,0..100,0..1&family=Inter+Tight:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@"
          "0,8..60,300..600;1,8..60,300..600&display=swap")
 
 e = html.escape
