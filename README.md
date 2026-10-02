@@ -17,3 +17,6 @@ Las recetas están en `tools/recipes.py` (el campo `need` indica los ingrediente
 
 ## Fotos
 Cada receta usa `assets/img/<slug>.webp`. Mientras falte una foto, la página muestra un marco con el nombre del plato. `tools/fotos.sh` descarga fotos con licencia libre desde Openverse y genera `creditos.html`; revisa cada imagen antes de publicarla.
+
+## Google Search Console
+`google0bc5e32972593400.html` es el archivo de verificación de Google: no lo borres ni lo cambies. `sitemap.xml` se genera con `tools/build.py` a partir de `SITE_URL`; si publicas la web en otra dirección, cambia `SITE_URL` y vuelve a generar.

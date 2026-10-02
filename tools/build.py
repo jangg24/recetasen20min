@@ -22,6 +22,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from recipes import RECIPES  # noqa: E402
 
 SITE = "Recetas en 20 minutos"
+# Dirección pública de la web (para sitemap.xml). Cámbiala si la publicas en otro sitio.
+SITE_URL = "https://jangg24.github.io/web/"
 VERSION = datetime.date.today().strftime("%Y%m%d")
 FONTS = ("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;"
          "1,9..144,300..700,0..100,0..1&family=Inter+Tight:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@"
@@ -237,6 +239,15 @@ def build_404():
 </main>"""
     out += footer()
     (ROOT / "404.html").write_text(out, encoding="utf-8")
+
+
+def build_sitemap():
+    today = datetime.date.today().isoformat()
+    pages = ["", "lista.html", "creditos.html"] + [f"receta-{r['slug']}.html" for r in RECIPES]
+    urls = "".join(f"  <url><loc>{SITE_URL}{p}</loc><lastmod>{today}</lastmod></url>\n" for p in pages)
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "</urlset>\n")
+    (ROOT / "sitemap.xml").write_text(xml, encoding="utf-8")
 
 
 def build_list():
@@ -531,6 +542,7 @@ if __name__ == "__main__":
     build_data()
     build_list()
     build_404()
+    build_sitemap()
     missing = [r["slug"] for r in RECIPES if not img_path(r["slug"])]
     print(f"OK · {len(RECIPES)} recetas · v={VERSION}")
     if missing:
