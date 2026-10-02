@@ -231,10 +231,10 @@ em { font-style: italic; }
 /* ---------- Grid & cards ---------- */
 .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: clamp(28px, 3.5vw, 48px) clamp(18px, 2.4vw, 32px); }
 .card { grid-column: span 4; }
-.grid > .card:nth-child(6n + 1) { grid-column: span 7; }
-.grid > .card:nth-child(6n + 2) { grid-column: span 5; }
-.grid > .card:nth-child(6n + 1) .card-fig { aspect-ratio: 16 / 11; }
-.grid > .card:nth-child(6n + 1) .card-title { font-size: clamp(1.8rem, 3vw, 2.5rem); }
+.grid > .card:nth-child(5n + 1) { grid-column: span 7; }
+.grid > .card:nth-child(5n + 2) { grid-column: span 5; }
+.grid > .card:nth-child(5n + 1) .card-fig { aspect-ratio: 16 / 11; }
+.grid > .card:nth-child(5n + 1) .card-title { font-size: clamp(1.8rem, 3vw, 2.5rem); }
 .grid--two > .card { grid-column: span 6 !important; }
 .card[hidden] { display: none; }
 .card-link { display: flex; flex-direction: column; height: 100%; text-decoration: none; }
@@ -366,8 +366,8 @@ html:not(.js) .stepper-val { padding: 10px 14px; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1000px) {
-  .card, .grid > .card:nth-child(6n + 1), .grid > .card:nth-child(6n + 2) { grid-column: span 6; }
-  .grid > .card:nth-child(6n + 1) .card-fig { aspect-ratio: 4 / 3; }
+  .card, .grid > .card:nth-child(5n + 1), .grid > .card:nth-child(5n + 2) { grid-column: span 6; }
+  .grid > .card:nth-child(5n + 1) .card-fig { aspect-ratio: 4 / 3; }
   .recipe-grid { grid-template-columns: 1fr; }
   .recipe-side { position: static; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 }
@@ -379,7 +379,7 @@ html:not(.js) .stepper-val { padding: 10px 14px; }
   .hero-fig { aspect-ratio: 4 / 3; }
   .section--split { grid-template-columns: 1fr; }
   .split-num { font-size: 6rem; }
-  .card, .grid > .card:nth-child(6n + 1), .grid > .card:nth-child(6n + 2), .grid--two > .card { grid-column: 1 / -1 !important; }
+  .card, .grid > .card:nth-child(5n + 1), .grid > .card:nth-child(5n + 2), .grid--two > .card { grid-column: 1 / -1 !important; }
   .grid { gap: 40px 0; }
   .facts { display: grid; grid-template-columns: repeat(3, 1fr); }
   .fact { border-right: 0; margin-right: 0; padding: 14px 8px 14px 0; }
