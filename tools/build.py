@@ -137,7 +137,7 @@ def dial(total, big=False):
             f'<span class="dial-num">{total}<small>min</small></span></span>')
 
 
-def head(title, desc, preload=None):
+def head(title, desc, preload=None, meta=""):
     pre = f'\n  <link rel="preload" as="image" href="{preload}?v={VERSION}" fetchpriority="high">' if preload else ""
     return f"""<!doctype html>
 <html lang="es">
@@ -156,8 +156,100 @@ def head(title, desc, preload=None):
   <link rel="stylesheet" href="styles.css?v={VERSION}">{pre}
   <script defer src="lib/manifest.js?v={VERSION}"></script>
   <script defer src="lib/recetas.js?v={VERSION}"></script>
-  <script defer src="main.js?v={VERSION}"></script>
+  <script defer src="main.js?v={VERSION}"></script>{meta}
 </head>"""
+
+
+def plain_ingredient(raw):
+    """Texto del ingrediente para la cantidad original, sin marcas ([200], {uno|varios})."""
+    return html.unescape(re.sub(r"<[^>]+>", "", ingredient_html(raw)))
+
+
+def img_size(rel):
+    try:
+        from PIL import Image
+        with Image.open(ROOT / rel) as im:
+            return im.size
+    except Exception:
+        return None
+
+
+def og_image(img_rel):
+    """Copia JPG de 1200×630 para la vista previa al compartir: WhatsApp y algunas redes
+    no muestran siempre WebP. Devuelve la ruta relativa o None."""
+    if not img_rel:
+        return None
+    try:
+        from PIL import Image, ImageOps
+    except ImportError:
+        return img_rel
+    out = f"assets/og/{Path(img_rel).stem}.jpg"
+    dst = ROOT / out
+    if not dst.exists() or dst.stat().st_mtime < (ROOT / img_rel).stat().st_mtime:
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        with Image.open(ROOT / img_rel) as im:
+            # En fotos verticales, el plato suele estar en la parte superior: se recorta más arriba
+            centre = (0.5, 0.3) if im.height > im.width else (0.5, 0.5)
+            ImageOps.fit(im.convert("RGB"), (1200, 630), Image.LANCZOS, centering=centre).save(
+                dst, "JPEG", quality=82, optimize=True, progressive=True)
+    return out
+
+
+def social_meta(title, desc, path, img_rel, kind="website", ld=None):
+    """Vista previa al compartir (Open Graph / Twitter), URL canónica y datos estructurados."""
+    url = SITE_URL + path
+    out = [f'<link rel="canonical" href="{e(url)}">',
+           f'<meta property="og:site_name" content="{e(SITE)}">',
+           '<meta property="og:locale" content="es_ES">',
+           f'<meta property="og:type" content="{kind}">',
+           f'<meta property="og:title" content="{e(title)}">',
+           f'<meta property="og:description" content="{e(desc)}">',
+           f'<meta property="og:url" content="{e(url)}">']
+    img_rel = og_image(img_rel)
+    if img_rel:
+        out.append(f'<meta property="og:image" content="{e(SITE_URL + img_rel)}">')
+        size = img_size(img_rel)
+        if size:
+            out.append(f'<meta property="og:image:width" content="{size[0]}">')
+            out.append(f'<meta property="og:image:height" content="{size[1]}">')
+        out.append(f'<meta property="og:image:alt" content="{e(title)}">')
+        out.append('<meta name="twitter:card" content="summary_large_image">')
+    else:
+        out.append('<meta name="twitter:card" content="summary">')
+    if ld:
+        out.append('<script type="application/ld+json">' +
+                   json.dumps(ld, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/") + "</script>")
+    return "".join("\n  " + x for x in out)
+
+
+def recipe_ld(r):
+    """Datos de receta para Google (schema.org/Recipe). Solo datos que están en la receta:
+    sin valoraciones, calorías ni nada que no exista."""
+    url = SITE_URL + f"receta-{r['slug']}.html"
+    ld = {
+        "@context": "https://schema.org",
+        "@type": "Recipe",
+        "name": r["title"],
+        "description": r["summary"],
+        "url": url,
+        "author": {"@type": "Organization", "name": SITE, "url": SITE_URL},
+        "publisher": {"@type": "Organization", "name": SITE, "url": SITE_URL},
+        "totalTime": f"PT{r['total']}M",
+        "recipeYield": personas(r["servings"]),
+        "recipeCategory": r["category"],
+        "keywords": ", ".join([r["category"].lower(), "receta rápida", f"{r['total']} minutos"]
+                              + (["vegetariana"] if is_veg(r) else [])),
+        "recipeIngredient": [plain_ingredient(x) for x in r["ingredients"]],
+        "tool": [{"@type": "HowToTool", "name": t} for t in r["tools"]],
+        "recipeInstructions": [
+            {"@type": "HowToStep", "position": n, "text": text, "url": f"{url}#paso-{n}"}
+            for n, (text, _m) in enumerate(r["steps"], 1)],
+    }
+    if img_path(r["slug"]):
+        ld["image"] = [SITE_URL + img_path(r["slug"])]
+    if is_veg(r):
+        ld["suitableForDiet"] = "https://schema.org/VegetarianDiet"
+    return ld
 
 
 def masthead(active=""):
@@ -251,7 +343,9 @@ def build_sitemap():
 
 
 def build_list():
-    out = head(f"Lista de la compra · {SITE}", "Lista de la compra con los ingredientes de las recetas que elijas.")
+    out = head(f"Lista de la compra · {SITE}", "Lista de la compra con los ingredientes de las recetas que elijas.",
+               meta=social_meta(f"Lista de la compra · {SITE}", "Junta los ingredientes de las recetas que elijas en una sola lista.",
+                                "lista.html", img_path(RECIPES[0]["slug"])))
     out += f"""
 <body class="page-list">{masthead('lista')}
 <main id="contenido" class="shop">
@@ -326,9 +420,15 @@ def build_index():
     top_tools = ", ".join(f"<strong>{e(n.lower() if i else n)}</strong> ({len(rs)} recetas)" for i, (n, rs) in enumerate(tools_sorted[:5]))
     marquee_items = "".join(f"<span>{e(r['title'])}</span><span aria-hidden='true'>✦</span>" for r in RECIPES)
 
-    out = head(f"{SITE} · Recetas paso a paso",
-               "Recetas sencillas que se preparan en unos 20 minutos, con ingredientes, utensilios, tiempos y pasos detallados.",
-               feat_img)
+    home_desc = "Recetas sencillas que se preparan en unos 20 minutos, con ingredientes, utensilios, tiempos y pasos detallados."
+    home_ld = [
+        {"@context": "https://schema.org", "@type": "WebSite", "name": SITE, "url": SITE_URL, "inLanguage": "es"},
+        {"@context": "https://schema.org", "@type": "ItemList",
+         "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": SITE_URL + f"receta-{r['slug']}.html"}
+                             for i, r in enumerate(RECIPES)]},
+    ]
+    out = head(f"{SITE} · Recetas paso a paso", home_desc, feat_img,
+               social_meta(SITE, home_desc, "", feat_img, "website", home_ld))
     out += f"""
 <body class="page-home">{masthead('recetas')}
 <main id="contenido">
@@ -431,7 +531,8 @@ def build_recipe(r, idx):
                 + "".join(f"<li>{e(t)}</li>" for t in r["tips"]) + "</ul></aside>")
     related = "".join(card(x, RECIPES.index(x) + 1) for x in [prev_r, next_r] if x is not r)
 
-    out = head(f"{r['title']} · {SITE}", r["summary"], img)
+    out = head(f"{r['title']} · {SITE}", r["summary"], img,
+               social_meta(r["title"], r["summary"], f"receta-{r['slug']}.html", img, "article", recipe_ld(r)))
     out += f"""
 <body class="page-recipe" data-slug="{r['slug']}">{masthead()}
 <main id="contenido">
@@ -522,7 +623,9 @@ def build_credits():
                 f'no están hechas siguiendo exactamente estas recetas.</p><ul class="credits-list">{items}</ul>')
     else:
         body = "<p>Todavía no hay fotografías publicadas en esta web.</p>"
-    out = head(f"Créditos fotográficos · {SITE}", "Autoría y licencias de las fotografías de la web.")
+    out = head(f"Créditos fotográficos · {SITE}", "Autoría y licencias de las fotografías de la web.",
+               meta=social_meta(f"Créditos fotográficos · {SITE}", "Autoría y licencias de las fotografías de la web.",
+                                "creditos.html", None))
     out += f"""
 <body class="page-credits">{masthead()}
 <main id="contenido" class="credits">
