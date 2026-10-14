@@ -644,3 +644,13 @@ html:not(.js) .js-only { display: none !important; }
 .tools-more .tools { margin-top: 1rem; }
 
 .card-fig img, .recipe-fig img, .hero-fig img, .fr img { filter: var(--photo); }
+
+/* Páginas informativas y enlaces legales del pie */
+.info h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin: 2.2rem 0 .8rem; }
+.info p, .info li { color: var(--ink-soft); max-width: 68ch; }
+.info ul { padding-left: 1.2rem; }
+.info li { padding: .25rem 0; }
+.pending { background: #ffe9a8; color: #5a4300; padding: 0 .3em; border-radius: 3px; font: 600 .85em/1.4 var(--f-sans); }
+.footer-links { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(239, 232, 218, .14); }
+.footer-links a { font: 500 .8rem/1.4 var(--f-sans); color: var(--foot-mute); text-decoration: none; }
+.footer-links a:hover { color: var(--foot-ink); text-decoration: underline; }

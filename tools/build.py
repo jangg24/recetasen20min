@@ -25,6 +25,15 @@ SITE = "Recetas en 20 minutos"
 # Dirección pública de la web (para sitemap.xml). Cámbiala si la publicas en otro sitio.
 SITE_URL = "https://jangg24.github.io/recetasen20min/"
 VERSION = datetime.date.today().strftime("%Y%m%d")
+
+# ---- Google AdSense y datos legales: rellenar antes de pedir la revisión de AdSense ----
+# Identificador de editor de AdSense, p. ej. "ca-pub-1234567890123456". Vacío = sin anuncios.
+ADSENSE_CLIENT = ""
+# Titular de la web y correo de contacto (aparecen en el aviso legal, la privacidad y el contacto).
+OWNER_NAME = ""
+OWNER_ID = ""        # DNI/NIF del titular (lo exige la LSSI en España si la web tiene ingresos)
+CONTACT_EMAIL = ""
+LEGAL_UPDATED = "14 de octubre de 2026"
 FONTS = ("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;"
          "1,9..144,300..700,0..100,0..1&family=Inter+Tight:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@"
          "0,8..60,300..600;1,8..60,300..600&display=swap")
@@ -137,6 +146,13 @@ def dial(total, big=False):
             f'<span class="dial-num">{total}<small>min</small></span></span>')
 
 
+def adsense_tag():
+    if not ADSENSE_CLIENT:
+        return ""
+    return (f'\n  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_CLIENT}"'
+            ' crossorigin="anonymous"></script>')
+
+
 def head(title, desc, preload=None, meta=""):
     pre = f'\n  <link rel="preload" as="image" href="{preload}?v={VERSION}" fetchpriority="high">' if preload else ""
     return f"""<!doctype html>
@@ -156,7 +172,7 @@ def head(title, desc, preload=None, meta=""):
   <link rel="stylesheet" href="styles.css?v={VERSION}">{pre}
   <script defer src="lib/manifest.js?v={VERSION}"></script>
   <script defer src="lib/recetas.js?v={VERSION}"></script>
-  <script defer src="main.js?v={VERSION}"></script>{meta}
+  <script defer src="main.js?v={VERSION}"></script>{adsense_tag()}{meta}
 </head>"""
 
 
@@ -279,6 +295,12 @@ def footer():
     <p class="footer-brand"><span class="brand-num">20′</span> {SITE}</p>
     <p class="footer-note">Los tiempos son aproximados: dependen de tu cocina, de tus utensilios y de la práctica que tengas.</p>
     <p class="footer-credits">{credit_line}</p>
+    <nav class="footer-links" aria-label="Información legal">
+      <a href="sobre.html">Sobre la web</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="privacidad.html">Política de privacidad y cookies</a>
+      <a href="aviso-legal.html">Aviso legal</a>
+    </nav>
   </div>
 </footer>
 </body>
@@ -335,11 +357,109 @@ def build_404():
 
 def build_sitemap():
     today = datetime.date.today().isoformat()
-    pages = ["", "lista.html", "creditos.html"] + [f"receta-{r['slug']}.html" for r in RECIPES]
+    pages = ["", "lista.html", "creditos.html", "sobre.html", "contacto.html", "privacidad.html", "aviso-legal.html"] + [f"receta-{r['slug']}.html" for r in RECIPES]
     urls = "".join(f"  <url><loc>{SITE_URL}{p}</loc><lastmod>{today}</lastmod></url>\n" for p in pages)
     xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "</urlset>\n")
     (ROOT / "sitemap.xml").write_text(xml, encoding="utf-8")
+
+
+def pending(value, label):
+    """Dato legal sin rellenar: se marca bien visible para no publicar nada inventado."""
+    return e(value) if value else f'<mark class="pending">[{e(label)} pendiente]</mark>'
+
+
+def contact_html():
+    if CONTACT_EMAIL:
+        return f'<a href="mailto:{e(CONTACT_EMAIL)}">{e(CONTACT_EMAIL)}</a>'
+    return pending("", "correo de contacto")
+
+
+def info_page(slug, title, desc, body):
+    out = head(f"{title} · {SITE}", desc,
+               meta=social_meta(f"{title} · {SITE}", desc, f"{slug}.html", None))
+    out += f"""
+<body class="page-info">{masthead()}
+<main id="contenido" class="credits info">
+  <p class="kicker"><a href="index.html">← Volver al inicio</a></p>
+  <h1 class="recipe-title">{e(title)}</h1>
+{body}
+</main>"""
+    out += footer()
+    (ROOT / f"{slug}.html").write_text(out, encoding="utf-8")
+
+
+def build_info_pages():
+    n = len(RECIPES)
+    info_page("sobre", "Sobre la web", f"Qué es {SITE} y cómo están hechas sus recetas.", f"""
+  <p class="recipe-lede">{SITE} es un recetario de {n} recetas sencillas que se preparan en unos 20 minutos o menos, explicadas paso a paso.</p>
+  <h2>Cómo están escritas las recetas</h2>
+  <p>Cada receta indica los ingredientes con sus cantidades, los utensilios que vas a necesitar, el tiempo total y en qué se va ese tiempo, y los pasos en orden. Son recetas conocidas de la cocina casera, explicadas con nuestras propias palabras.</p>
+  <h2>Cómo contamos el tiempo</h2>
+  <p>El tiempo va desde que empiezas a preparar los ingredientes hasta que el plato está servido, contando con que ya los tienes comprados. Es aproximado: depende de tu cocina, de tus utensilios y de la práctica que tengas. Lo explicamos con más detalle en <a href="index.html#tiempos">cómo medimos el tiempo</a>.</p>
+  <h2>Las fotografías</h2>
+  <p>Las fotos son ilustrativas del plato: proceden de autores que las publicaron con licencias Creative Commons o de dominio público, y no están hechas siguiendo exactamente nuestras recetas. Puedes ver la autoría y la licencia de cada una en los <a href="creditos.html">créditos fotográficos</a>.</p>
+  <h2>Lo que no encontrarás</h2>
+  <p>No publicamos valoraciones, opiniones ni datos nutricionales inventados. Si una información no la tenemos, no la ponemos.</p>
+  <h2>Contacto</h2>
+  <p>Para cualquier duda, corrección o sugerencia: {contact_html()}.</p>""")
+
+    info_page("contacto", "Contacto", f"Cómo ponerte en contacto con {SITE}.", f"""
+  <p class="recipe-lede">¿Has encontrado un error en una receta, tienes una sugerencia o quieres comentarnos algo? Escríbenos.</p>
+  <p>Correo electrónico: {contact_html()}</p>
+  <p>Intentaremos responder lo antes posible. Si escribes por un error en una receta, indícanos cuál y en qué paso, y lo revisaremos.</p>""")
+
+    ads = """
+  <h2>Publicidad (Google AdSense)</h2>
+  <p>Esta web puede mostrar anuncios a través de Google AdSense, un servicio de Google. Para mostrarlos, Google y sus socios utilizan cookies y tecnologías similares que pueden servir anuncios basados en tus visitas anteriores a esta web y a otras webs.</p>
+  <ul>
+    <li>Puedes consultar cómo usa Google los datos en <a href="https://policies.google.com/technologies/partner-sites?hl=es" target="_blank" rel="noopener">Cómo utiliza Google la información de los sitios web que usan sus servicios</a>.</li>
+    <li>Puedes desactivar la publicidad personalizada en la <a href="https://adssettings.google.com/" target="_blank" rel="noopener">configuración de anuncios de Google</a>.</li>
+    <li>Más información sobre las cookies publicitarias de Google: <a href="https://policies.google.com/technologies/ads?hl=es" target="_blank" rel="noopener">policies.google.com/technologies/ads</a>.</li>
+  </ul>
+  <p>Si visitas la web desde el Espacio Económico Europeo, el Reino Unido o Suiza, antes de usar cookies publicitarias se te mostrará un aviso para que aceptes, rechaces o configures su uso. Puedes cambiar tu elección en cualquier momento desde el enlace que aparece en ese aviso.</p>"""
+
+    info_page("privacidad", "Política de privacidad y cookies", "Qué datos se tratan en esta web y cómo.", f"""
+  <p class="servings-note">Última actualización: {e(LEGAL_UPDATED)}</p>
+  <h2>Responsable</h2>
+  <p>{pending(OWNER_NAME, "Nombre del titular")} · Contacto: {contact_html()}</p>
+  <h2>Datos que no recogemos</h2>
+  <p>Esta web no tiene registro de usuarios, formularios ni comentarios: no te pedimos tu nombre, tu correo ni ningún otro dato personal para usarla.</p>
+  <h2>Datos guardados en tu propio navegador</h2>
+  <p>Algunas funciones guardan información solo en tu navegador (almacenamiento local), sin enviarla a ningún servidor: las raciones elegidas, tus recetas favoritas, la lista de la compra, los ingredientes marcados en «¿Qué tengo en la nevera?» y los pasos marcados como hechos. Puedes borrarlos cuando quieras desde la configuración de tu navegador.</p>
+  <h2>Servicios de terceros</h2>
+  <ul>
+    <li><strong>Google Fonts</strong>: las tipografías se cargan desde servidores de Google, que reciben tu dirección IP para enviarlas. Más información en la <a href="https://policies.google.com/privacy?hl=es" target="_blank" rel="noopener">política de privacidad de Google</a>.</li>
+    <li><strong>Alojamiento</strong>: el proveedor que aloja la web puede registrar datos técnicos de las visitas (como la dirección IP) por motivos de seguridad y funcionamiento.</li>
+  </ul>{ads}
+  <h2>Tus derechos</h2>
+  <p>Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a {contact_html()}. Si consideras que no se han atendido correctamente, puedes reclamar ante la Agencia Española de Protección de Datos (<a href="https://www.aepd.es" target="_blank" rel="noopener">aepd.es</a>).</p>""")
+
+    info_page("aviso-legal", "Aviso legal", f"Datos del titular de {SITE}.", f"""
+  <p class="servings-note">Última actualización: {e(LEGAL_UPDATED)}</p>
+  <h2>Titular</h2>
+  <ul>
+    <li>Nombre: {pending(OWNER_NAME, "Nombre del titular")}</li>
+    <li>DNI/NIF: {pending(OWNER_ID, "DNI/NIF")}</li>
+    <li>Correo electrónico: {contact_html()}</li>
+    <li>Sitio web: {e(SITE_URL)}</li>
+  </ul>
+  <h2>Contenido</h2>
+  <p>Las recetas se ofrecen con fines informativos. Los tiempos y las cantidades son orientativos. Revisa siempre los ingredientes si tienes alergias o intolerancias alimentarias.</p>
+  <h2>Propiedad intelectual</h2>
+  <p>Los textos de las recetas y el diseño de la web pertenecen a su titular. Las fotografías pertenecen a sus autores y se usan según sus licencias, indicadas en los <a href="creditos.html">créditos fotográficos</a>.</p>
+  <h2>Enlaces</h2>
+  <p>Esta web contiene enlaces a sitios de terceros sobre los que no tenemos control y de cuyos contenidos no somos responsables.</p>""")
+
+
+def build_ads_txt():
+    """ads.txt: obligatorio para AdSense. Solo se genera con el identificador de editor."""
+    p = ROOT / "ads.txt"
+    if ADSENSE_CLIENT:
+        pub = ADSENSE_CLIENT.replace("ca-", "", 1)
+        p.write_text(f"google.com, {pub}, DIRECT, f08c47fec0942fa0\n", encoding="utf-8")
+    elif p.exists():
+        p.unlink()
 
 
 def build_list():
@@ -645,8 +765,14 @@ if __name__ == "__main__":
     build_data()
     build_list()
     build_404()
+    build_info_pages()
+    build_ads_txt()
     build_sitemap()
     missing = [r["slug"] for r in RECIPES if not img_path(r["slug"])]
     print(f"OK · {len(RECIPES)} recetas · v={VERSION}")
+    faltan = [n for n, v in [("ADSENSE_CLIENT", ADSENSE_CLIENT), ("OWNER_NAME", OWNER_NAME),
+                             ("OWNER_ID", OWNER_ID), ("CONTACT_EMAIL", CONTACT_EMAIL)] if not v]
+    if faltan:
+        print("Datos pendientes para AdSense:", ", ".join(faltan))
     if missing:
         print("Fotos pendientes:", ", ".join(missing))

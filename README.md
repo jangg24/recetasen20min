@@ -20,3 +20,6 @@ Cada receta usa `assets/img/<slug>.webp`. Mientras falte una foto, la página mu
 
 ## Google Search Console
 `google0bc5e32972593400.html` es el archivo de verificación de Google: no lo borres ni lo cambies. `sitemap.xml` se genera con `tools/build.py` a partir de `SITE_URL`; si publicas la web en otra dirección, cambia `SITE_URL` y vuelve a generar.
+
+## Google AdSense
+Rellena al principio de `tools/build.py`: `ADSENSE_CLIENT` (tu identificador `ca-pub-…`), `OWNER_NAME`, `OWNER_ID` y `CONTACT_EMAIL`, y ejecuta `python3 tools/build.py`. Se añaden el código de AdSense en todas las páginas y el archivo `ads.txt`, y se completan el aviso legal, la privacidad y el contacto. El aviso de consentimiento de cookies para Europa se activa desde AdSense (Privacidad y mensajes).
